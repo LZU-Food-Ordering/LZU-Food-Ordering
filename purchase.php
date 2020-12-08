@@ -8,13 +8,11 @@
 
   // create short variable names
   $name = $_POST['name'];
-  $address = $_POST['address'];
-  $city = $_POST['city'];
-  $zip = $_POST['zip'];
-  $country = $_POST['country'];
+  $dormitory = $_POST['dormitory'];
+  $customerid = $_POST['customerid'];
 
   // if filled out
-  if (isset($_SESSION['cart']) && ($name) && ($address) && ($city) && ($zip) && ($country)) {
+  if (isset($_SESSION['cart']) && ($name) && ($dormitory) && ($customerid)) {
     // able to insert into database
     if(insert_order($_POST) != false ) {
       //display cart, not allowing changes and without pictures

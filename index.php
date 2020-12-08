@@ -4,7 +4,7 @@
   session_start();
   do_html_header("Welcome to LZU Food Ordering");
 
-  echo "<p>Please choose a merchant:</p>";
+  echo "<p>Please choose a Restaurant:</p>";
 
   // get merchants out of database
   $cat_array = get_merchants();

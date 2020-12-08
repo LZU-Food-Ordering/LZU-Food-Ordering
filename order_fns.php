@@ -10,16 +10,10 @@ function process_card($card_details) {
 function insert_order($order_details) {
   // extract order_details out as variables
   extract($order_details);
-
   // set shipping address same as address
-  if((!$ship_name) && (!$ship_address) && (!$ship_city) && (!$ship_state) && (!$ship_zip) && (!$ship_country)) {
-    $ship_name = $name;
-    $ship_address = $address;
-    $ship_city = $city;
-    $ship_state = $state;
-    $ship_zip = $zip;
-    $ship_country = $country;
-  }
+  $ship_name = $name;
+  $ship_customerid = $customerid;
+  $ship_dormitory = $dormitory;
 
   $conn = db_connect();
 
@@ -29,20 +23,18 @@ function insert_order($order_details) {
 
   // insert customer address
   $query = "select customerid from customers where
-            name = '".$conn->real_escape_string($name) ."' and address = '". $conn->real_escape_string($address)."'
-            and city = '".$conn->real_escape_string($city)."' and state = '".$conn->real_escape_string($state)."'
-            and zip = '".$conn->real_escape_string($zip)."' and country = '".$conn->real_escape_string($country)."'";
+            customerid = '".$conn->real_escape_string($customerid)."'";
 
   $result = $conn->query($query);
 
   if($result->num_rows>0) {
-    $customer = $result->fetch_object();
-    $customerid = $customer->customerid;
+    // $customer = $result->fetch_object();
+    // $customerid = $customer->customerid;
   } else {
     $query = "insert into customers values
-            ('', '" . $conn->real_escape_string($name) ."','" . $conn->real_escape_string($address) . 
-            "','". $conn->real_escape_string($city) ."','". $conn->real_escape_string($state) . 
-            "','". $conn->real_escape_string($zip) ."','". $conn->real_escape_string($country)."')";
+            (' " . $conn->real_escape_string($customerid) .
+            "','". $conn->real_escape_string($name) ."','". $conn->real_escape_string($dormitory)."')";
+            print_r($query);
     $result = $conn->query($query);
 
     if (!$result) {
@@ -50,16 +42,13 @@ function insert_order($order_details) {
     }
   }
 
-  $customerid = $conn->insert_id;
-
   $date = date("Y-m-d");
 
   $query = "insert into orders values
-            ('', '". $conn->real_escape_string($customerid) . "', '". $conn->real_escape_string($_SESSION['total_price']) . 
+            ('', '". $conn->real_escape_string($_SESSION['total_price']) . 
              "', '". $conn->real_escape_string($date) ."', 'PARTIAL',
-             '" . $conn->real_escape_string($ship_name) . "', '" . $conn->real_escape_string($ship_address) . 
-             "', '". $conn->real_escape_string($ship_city)."', '" . $conn->real_escape_string($ship_state) ."',
-             '". $conn->real_escape_string($ship_zip) . "', '". $conn->real_escape_string($ship_country)."')";
+             '" . $conn->real_escape_string($ship_name)."',
+             '". $conn->real_escape_string($ship_customerid) . "', '". $conn->real_escape_string($dormitory)."')";
 
   $result = $conn->query($query);
   if (!$result) {
@@ -67,17 +56,13 @@ function insert_order($order_details) {
   }
 
   $query = "select orderid from orders where
-               customerid = '". $conn->real_escape_string($customerid)."' and
                amount > (".(float)$_SESSION['total_price'] ."-.001) and
                amount < (". (float)$_SESSION['total_price']."+.001) and
                date = '".$conn->real_escape_string($date)."' and
                order_status = 'PARTIAL' and
                ship_name = '".$conn->real_escape_string($ship_name)."' and
-               ship_address = '".$conn->real_escape_string($ship_address)."' and
-               ship_city = '".$conn->real_escape_string($ship_city)."' and
-               ship_state = '".$conn->real_escape_string($ship_state)."' and
-               ship_zip = '".$conn->real_escape_string($ship_zip)."' and
-               ship_country = '".$conn->real_escape_string($ship_country)."'";
+               ship_customerid = '".$conn->real_escape_string($ship_customerid)."' and
+               ship_dormitory = '".$conn->real_escape_string($ship_dormitory)."'";
 
   $result = $conn->query($query);
 

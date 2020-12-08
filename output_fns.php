@@ -171,55 +171,18 @@ function display_checkout_form() {
   <form action="purchase.php" method="post">
   <tr><th colspan="2" bgcolor="#cccccc">Your Details</th></tr>
   <tr>
-    <td>Name</td>
+    <td align=center> Name</td>
     <td><input type="text" name="name" value="" maxlength="40" size="40"/></td>
   </tr>
   <tr>
-    <td>Address</td>
-    <td><input type="text" name="address" value="" maxlength="40" size="40"/></td>
+    <td align=center>customerid</td>
+    <td><input type="text" name="customerid" value="" maxlength="40" size="40"/></td>
   </tr>
   <tr>
-    <td>City/Suburb</td>
-    <td><input type="text" name="city" value="" maxlength="20" size="40"/></td>
+    <td align=center>dormitory</td>
+    <td><input type="text" name="dormitory" value="" maxlength="20" size="40"/></td>
   </tr>
-  <tr>
-    <td>State/Province</td>
-    <td><input type="text" name="state" value="" maxlength="20" size="40"/></td>
-  </tr>
-  <tr>
-    <td>Postal Code or Zip Code</td>
-    <td><input type="text" name="zip" value="" maxlength="10" size="40"/></td>
-  </tr>
-  <tr>
-    <td>Country</td>
-    <td><input type="text" name="country" value="" maxlength="20" size="40"/></td>
-  </tr>
-  <tr><th colspan="2" bgcolor="#cccccc">Shipping Address (leave blank if as above)</th></tr>
-  <tr>
-    <td>Name</td>
-    <td><input type="text" name="ship_name" value="" maxlength="40" size="40"/></td>
-  </tr>
-  <tr>
-    <td>Address</td>
-    <td><input type="text" name="ship_address" value="" maxlength="40" size="40"/></td>
-  </tr>
-  <tr>
-    <td>City/Suburb</td>
-    <td><input type="text" name="ship_city" value="" maxlength="20" size="40"/></td>
-  </tr>
-  <tr>
-    <td>State/Province</td>
-    <td><input type="text" name="ship_state" value="" maxlength="20" size="40"/></td>
-  </tr>
-  <tr>
-    <td>Postal Code or Zip Code</td>
-    <td><input type="text" name="ship_zip" value="" maxlength="10" size="40"/></td>
-  </tr>
-  <tr>
-    <td>Country</td>
-    <td><input type="text" name="ship_country" value="" maxlength="20" size="40"/></td>
-  </tr>
-  <tr>
+  
     <td colspan="2" align="center"><p><strong>Please press Purchase to confirm
          your purchase, or Continue Shopping to add or remove items.</strong></p>
      <?php display_form_button("purchase", "Purchase These Items"); ?>
@@ -314,7 +277,8 @@ function display_cart($cart, $change = true, $images = 1) {
 
    echo "<table border=\"0\" width=\"100%\" cellspacing=\"0\">
          <form action=\"show_cart.php\" method=\"post\">
-         <tr><th colspan=\"".(1 + $images)."\" bgcolor=\"#cccccc\">Item</th>
+         <tr><th colspan=\"".(1 + $images)."\" bgcolor=\"#cccccc\"></th>
+         <th bgcolor=\"#cccccc\">Restaurant</th>
          <th bgcolor=\"#cccccc\">Price</th>
          <th bgcolor=\"#cccccc\">Quantity</th>
          <th bgcolor=\"#cccccc\">Total</th>
@@ -324,6 +288,8 @@ function display_cart($cart, $change = true, $images = 1) {
   foreach ($cart as $foodid => $qty)  {
     $food = get_food_details($foodid);
     echo "<tr>";
+
+    
     if($images == true) {
       echo "<td align=\"left\">";
       if (file_exists("images/{$foodid}.jpg")) {
@@ -339,9 +305,11 @@ function display_cart($cart, $change = true, $images = 1) {
       }
       echo "</td>";
     }
+
+
     echo "<td align=\"left\">
-          <a href=\"show_food.php?foodid=".urlencode($foodid)."\">".htmlspecialchars($food['title'])."</a>
-          by ".htmlspecialchars($food['author'])."</td>
+          <a href=\"show_food.php?foodid=".urlencode($foodid)."\">".htmlspecialchars($food['title'])."</a></td>
+          <td align=\"center\">".htmlspecialchars($food['rest'])."</td>
           <td align=\"center\">\$".number_format($food['price'], 2)."</td>
           <td align=\"center\">";
 
@@ -355,8 +323,7 @@ function display_cart($cart, $change = true, $images = 1) {
   }
   // display total row
   echo "<tr>
-        <th colspan=\"".(2+$images)."\" bgcolor=\"#cccccc\">&nbsp;</td>
-        <th align=\"center\" bgcolor=\"#cccccc\">".htmlspecialchars($_SESSION['items'])."</th>
+        <th colspan=\"".(4+$images)."\" bgcolor=\"#cccccc\">&nbsp;</th>
         <th align=\"center\" bgcolor=\"#cccccc\">
             \$".number_format($_SESSION['total_price'], 2)."
         </th>
@@ -365,17 +332,19 @@ function display_cart($cart, $change = true, $images = 1) {
   // display save change button
   if($change == true) {
     echo "<tr>
-          <td colspan=\"".(2+$images)."\">&nbsp;</td>
-          <td align=\"center\">
-             <input type=\"hidden\" name=\"save\" value=\"true\"/>
-             <input type=\"image\" src=\"images/save-changes.gif\"
-                    border=\"0\" alt=\"Save Changes\"/>
-          </td>
+          <td colspan=\"".(2)."\">&nbsp;</td>
+          
           <td>&nbsp;</td>
           </tr>";
   }
   echo "</form></table>";
+  echo "<div align=\"right\">
+        <input type=\"hidden\" name=\"save\" value=\"true\"/>
+        <input type=\"image\" src=\"images/save-changes.gif\"
+        border=\"0\" alt=\"Save Changes\"/>
+        </div>";
 }
+
 
 function display_login_form() {
   // dispaly form asking for name and password
@@ -407,14 +376,14 @@ function display_admin_menu() {
 }
 
 function display_button($target, $image, $alt) {
-  echo "<div align=\"center\"><a href=\"".htmlspecialchars($target)."\">
+  echo "<div align=\"right\"><a href=\"".htmlspecialchars($target)."\">
           <img src=\"images/".htmlspecialchars($image).".gif\"
            alt=\"".htmlspecialchars($alt)."\" border=\"0\" height=\"50\"
            width=\"135\"/></a></div>";
 }
 
 function display_form_button($image, $alt) {
-  echo "<div align=\"center\"><input type=\"image\"
+  echo "<div align=\"right\"><input type=\"image\"
            src=\"images/".htmlspecialchars($image).".gif\"
            alt=\"".htmlspecialchars($alt)."\" border=\"0\" height=\"50\"
            width=\"135\"/></div>";

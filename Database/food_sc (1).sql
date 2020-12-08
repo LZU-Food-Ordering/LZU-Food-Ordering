@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: 2020-12-08 13:42:10
+-- Generation Time: 2020-12-08 16:08:46
 -- 服务器版本： 10.1.21-MariaDB
 -- PHP Version: 5.6.30
 
@@ -47,18 +47,17 @@ INSERT INTO `admin` (`username`, `password`) VALUES
 CREATE TABLE `customers` (
   `customerid` varchar(12) NOT NULL,
   `name` char(60) NOT NULL,
-  `sex` int(10) UNSIGNED DEFAULT NULL,
-  `age` int(10) UNSIGNED DEFAULT NULL,
-  `phone` varchar(20) NOT NULL,
-  `qq` varchar(20) DEFAULT NULL,
-  `email` varchar(30) DEFAULT NULL,
-  `password` char(40) NOT NULL,
-  `address` char(80) NOT NULL,
-  `city` char(30) NOT NULL,
-  `state` char(20) DEFAULT NULL,
-  `zip` char(10) DEFAULT NULL,
-  `country` char(20) NOT NULL
+  `dormitory` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- 转存表中的数据 `customers`
+--
+
+INSERT INTO `customers` (`customerid`, `name`, `dormitory`) VALUES
+(' 1', '2333', '1'),
+('320180915555', 'zhang san', '4#123'),
+('320180916666', 'li si', '5#233');
 
 -- --------------------------------------------------------
 
@@ -83,8 +82,8 @@ CREATE TABLE `foods` (
 
 INSERT INTO `foods` (`foodid`, `title`, `catid`, `price`, `stock`, `status`, `description`, `rest`) VALUES
 (1, 'sweet and sour chop', 1, 49.99, 20, 1, 'chop cooked with sugar and vinegar', 'Zhilan Yuan'),
-(2, 'braised meat', 1, 34.99, 30, 1, 'a kind of braised pork.', 'Qingzhen restruant'),
-(3, 'fried chicken wings', 1, 39.99, 40, 1, 'chicken wings which are fried', 'Yushu Yaun');
+(2, 'braised meat', 3, 34.99, 30, 1, 'a kind of braised pork.', 'Qingzhen restruant'),
+(3, 'fried chicken wings', 2, 39.99, 40, 1, 'chicken wings which are fried', 'Yushu Yaun');
 
 -- --------------------------------------------------------
 
@@ -105,10 +104,10 @@ CREATE TABLE `merchants` (
 --
 
 INSERT INTO `merchants` (`catid`, `catname`, `phone`, `address`, `recommend`) VALUES
-(1, 'Internet', '1823123123', '????????A', 1),
-(2, 'Self-help', '18234234234', '????????B', 1),
-(3, 'Fiction', '18232131231', '????????C', 1),
-(4, 'Gardening', '1832423432', '????????D', 1);
+(1, 'Zhilan Yuan', '1823123123', 'north', 1),
+(2, 'Yushu Yuan', '18234234234', 'east', 1),
+(3, 'QIngzhen restaurant', '18232131231', 'south', 1),
+(4, 'Jiaoshi restaurant', '1832423432', 'west', 1);
 
 -- --------------------------------------------------------
 
@@ -118,17 +117,20 @@ INSERT INTO `merchants` (`catid`, `catname`, `phone`, `address`, `recommend`) VA
 
 CREATE TABLE `orders` (
   `orderid` int(10) UNSIGNED NOT NULL,
-  `customerid` varchar(12) NOT NULL,
   `amount` float(6,2) DEFAULT NULL,
   `date` date NOT NULL,
   `order_status` char(10) DEFAULT NULL,
   `ship_name` char(60) NOT NULL,
-  `ship_address` char(80) NOT NULL,
-  `ship_city` char(30) NOT NULL,
-  `ship_state` char(20) DEFAULT NULL,
-  `ship_zip` char(10) DEFAULT NULL,
-  `ship_country` char(20) NOT NULL
+  `ship_customerid` char(80) NOT NULL,
+  `ship_dormitory` char(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- 转存表中的数据 `orders`
+--
+
+INSERT INTO `orders` (`orderid`, `amount`, `date`, `order_status`, `ship_name`, `ship_customerid`, `ship_dormitory`) VALUES
+(1, 204.95, '2020-12-08', 'PARTIAL', '2333', '1', '1');
 
 -- --------------------------------------------------------
 
@@ -142,6 +144,15 @@ CREATE TABLE `order_items` (
   `item_price` float(4,2) NOT NULL,
   `quantity` tinyint(3) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- 转存表中的数据 `order_items`
+--
+
+INSERT INTO `order_items` (`orderid`, `foodid`, `item_price`, `quantity`) VALUES
+(1, 1, 49.99, 1),
+(1, 2, 34.99, 1),
+(1, 3, 39.99, 3);
 
 --
 -- Indexes for dumped tables
@@ -201,7 +212,7 @@ ALTER TABLE `merchants`
 -- 使用表AUTO_INCREMENT `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `orderid` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `orderid` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
