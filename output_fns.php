@@ -118,7 +118,7 @@ function display_foods($food_array) {
       echo "<tr><td>";
       if (@file_exists("images/{$row['foodid']}.jpg")) {
         $title = "<img src=\"images/". htmlspecialchars($row['foodid']) . ".jpg\"
-                  style=\"border: 1px solid black\"/>";
+                  height=\"125\" style=\"border: 1px solid black\"/>";
         do_html_url($url, $title);
       } else {
         echo "&nbsp;";
@@ -144,13 +144,13 @@ function display_food_details($food) {
       $size = GetImageSize("images/{$food['foodid']}.jpg");
       if(($size[0] > 0) && ($size[1] > 0)) {
         echo "<td><img src=\"images/".htmlspecialchars($food['foodid']).".jpg\"
-              style=\"border: 1px solid black\"/></td>";
+              height=\"125px\" style=\"border: 1px solid black\"/></td>";
       }
     }
     echo "<td><ul>";
-    echo "<li><strong>Author:</strong> ";
+    echo "<li><strong>Name:</strong> ";
     echo htmlspecialchars($food['rest']);
-    echo "</li><li><strong>foodid:</strong> ";
+    echo "</li><li><strong>Food id:</strong> ";
     echo htmlspecialchars($food['foodid']);
     echo "</li><li><strong>Our Price:</strong> ";
     echo number_format($food['price'], 2);
@@ -175,7 +175,7 @@ function display_checkout_form() {
     <td><input type="text" name="name" value="" maxlength="40" size="40"/></td>
   </tr>
   <tr>
-    <td align=center>customerid</td>
+    <td align=center>Student Card</td>
     <td><input type="text" name="customerid" value="" maxlength="40" size="40"/></td>
   </tr>
   <tr>
@@ -297,8 +297,7 @@ function display_cart($cart, $change = true, $images = 1) {
          if(($size[0] > 0) && ($size[1] > 0)) {
            echo "<img src=\"images/".htmlspecialchars($foodid).".jpg\"
                   style=\"border: 1px solid black\"
-                  width=\"".($size[0]/3)."\"
-                  height=\"".($size[1]/3)."\"/>";
+                  height=\"42px\"/>";
          }
       } else {
          echo "&nbsp;";
@@ -310,7 +309,7 @@ function display_cart($cart, $change = true, $images = 1) {
     echo "<td align=\"left\">
           <a href=\"show_food.php?foodid=".urlencode($foodid)."\">".htmlspecialchars($food['title'])."</a></td>
           <td align=\"center\">".htmlspecialchars($food['rest'])."</td>
-          <td align=\"center\">\$".number_format($food['price'], 2)."</td>
+          <td align=\"center\">￥".number_format($food['price'], 2)."</td>
           <td align=\"center\">";
 
     // if we allow changes, quantities are in text boxes
@@ -319,13 +318,13 @@ function display_cart($cart, $change = true, $images = 1) {
     } else {
       echo $qty;
     }
-    echo "</td><td align=\"center\">\$".number_format($food['price']*$qty,2)."</td></tr>\n";
+    echo "</td><td align=\"center\">￥".number_format($food['price']*$qty,2)."</td></tr>\n";
   }
   // display total row
   echo "<tr>
         <th colspan=\"".(4+$images)."\" bgcolor=\"#cccccc\">&nbsp;</th>
         <th align=\"center\" bgcolor=\"#cccccc\">
-            \$".number_format($_SESSION['total_price'], 2)."
+            ￥".number_format($_SESSION['total_price'], 2)."
         </th>
         </tr>";
 
