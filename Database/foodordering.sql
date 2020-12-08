@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 08, 2020 at 04:00 AM
+-- Generation Time: Dec 08, 2020 at 04:14 AM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.11
 
@@ -63,7 +63,21 @@ CREATE TABLE `orders` (
   `userid` varchar(12) NOT NULL,
   `price` double NOT NULL,
   `status` int(11) NOT NULL,
-  `name` varchar(50) NOT NULL
+  `name` varchar(50) NOT NULL,
+  `ship_address` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `order_items`
+--
+
+CREATE TABLE `order_items` (
+  `orderid` int(11) NOT NULL,
+  `menuid` int(11) NOT NULL,
+  `item_price` double NOT NULL,
+  `quantity` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -104,6 +118,12 @@ ALTER TABLE `merchants`
 --
 ALTER TABLE `orders`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `order_items`
+--
+ALTER TABLE `order_items`
+  ADD PRIMARY KEY (`orderid`,`menuid`);
 
 --
 -- Indexes for table `users`
