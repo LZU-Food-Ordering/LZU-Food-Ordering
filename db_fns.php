@@ -1,7 +1,7 @@
 <?php
 
 function db_connect() {
-   $result = new mysqli('localhost', 'food_sc', 'password', 'food_sc');
+   $result = new mysqli('localhost', 'root', '', 'food_sc');
    if (!$result) {
       return false;
    }

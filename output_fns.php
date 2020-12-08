@@ -124,7 +124,7 @@ function display_foods($food_array) {
         echo "&nbsp;";
       }
       echo "</td><td>";
-      $title = htmlspecialchars($row['title']) . " by " . htmlspecialchars($row['author']);
+      $title = htmlspecialchars($row['title']) . " by " . htmlspecialchars($row['rest']);
       do_html_url($url, $title);
       echo "</td></tr>";
     }
@@ -149,7 +149,7 @@ function display_food_details($food) {
     }
     echo "<td><ul>";
     echo "<li><strong>Author:</strong> ";
-    echo htmlspecialchars($food['author']);
+    echo htmlspecialchars($food['rest']);
     echo "</li><li><strong>foodid:</strong> ";
     echo htmlspecialchars($food['foodid']);
     echo "</li><li><strong>Our Price:</strong> ";
