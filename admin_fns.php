@@ -17,6 +17,7 @@ function display_merchant_form($merchant = '') {
   // most of the form is in plain HTML with some
   // optional PHP bits throughout
 ?>
+  <h3>Please Confirm:</h3>
   <form method="post"
       action="<?php echo $edit ? 'edit_merchant.php' : 'insert_merchant.php'; ?>">
   <table border="0">
@@ -42,12 +43,13 @@ function display_merchant_form($merchant = '') {
 
 function delete_merchant_form(){
 ?>
+<h3>Please Confirm:</h3>
 <td>
     <form method=post action=delete_merchant.php>
   <tr>
     <td>Restaurant Name:</td>
-    <td><input type="text" name="catname" size="40" maxlength="40"
-          value="" /></td>
+    <td><input type="text" name="catname" size="40" maxlength="40" <?php echo "value=\"". htmlspecialchars(get_merchant_name($_GET['catid']))."\" />";?>
+          </td>
    </tr>
     <input type=submit value="Delete Restaurant">
     </form></td>

@@ -6,7 +6,18 @@ session_start();
 
 do_html_header("Delete a Restaurant");
 if (check_admin_user()) {
-  delete_merchant_form();
+  if(isset($_GET['catid'])){
+    delete_merchant_form();
+  }
+  else {
+    echo "<p>Please choose a Restaurant:</p>";
+
+    // get merchants out of database
+    $cat_array = get_merchants();
+  
+    // action on as links to cat pages
+    action_on_merchants($cat_array,"delete_merchant_form");
+  }
   do_html_url("admin.php", "Back to administration menu");
 } else {
   echo "<p>You are not authorized to enter the administration area.</p>";

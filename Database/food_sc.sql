@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.5.2
+-- version 5.0.3
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: 2020-12-09 06:04:37
--- 服务器版本： 10.1.21-MariaDB
--- PHP Version: 5.6.30
+-- Generation Time: Dec 09, 2020 at 09:15 AM
+-- Server version: 10.4.14-MariaDB
+-- PHP Version: 7.4.11
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -23,7 +24,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- 表的结构 `admin`
+-- Table structure for table `admin`
 --
 
 CREATE TABLE `admin` (
@@ -32,7 +33,7 @@ CREATE TABLE `admin` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- 转存表中的数据 `admin`
+-- Dumping data for table `admin`
 --
 
 INSERT INTO `admin` (`username`, `password`) VALUES
@@ -41,7 +42,7 @@ INSERT INTO `admin` (`username`, `password`) VALUES
 -- --------------------------------------------------------
 
 --
--- 表的结构 `customers`
+-- Table structure for table `customers`
 --
 
 CREATE TABLE `customers` (
@@ -51,7 +52,7 @@ CREATE TABLE `customers` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- 转存表中的数据 `customers`
+-- Dumping data for table `customers`
 --
 
 INSERT INTO `customers` (`customerid`, `name`, `dormitory`) VALUES
@@ -63,7 +64,7 @@ INSERT INTO `customers` (`customerid`, `name`, `dormitory`) VALUES
 -- --------------------------------------------------------
 
 --
--- 表的结构 `foods`
+-- Table structure for table `foods`
 --
 
 CREATE TABLE `foods` (
@@ -78,7 +79,7 @@ CREATE TABLE `foods` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- 转存表中的数据 `foods`
+-- Dumping data for table `foods`
 --
 
 INSERT INTO `foods` (`foodid`, `title`, `catid`, `price`, `stock`, `status`, `description`, `rest`) VALUES
@@ -89,7 +90,7 @@ INSERT INTO `foods` (`foodid`, `title`, `catid`, `price`, `stock`, `status`, `de
 -- --------------------------------------------------------
 
 --
--- 表的结构 `merchants`
+-- Table structure for table `merchants`
 --
 
 CREATE TABLE `merchants` (
@@ -101,7 +102,7 @@ CREATE TABLE `merchants` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- 转存表中的数据 `merchants`
+-- Dumping data for table `merchants`
 --
 
 INSERT INTO `merchants` (`catid`, `catname`, `phone`, `address`, `recommend`) VALUES
@@ -113,7 +114,7 @@ INSERT INTO `merchants` (`catid`, `catname`, `phone`, `address`, `recommend`) VA
 -- --------------------------------------------------------
 
 --
--- 表的结构 `orders`
+-- Table structure for table `orders`
 --
 
 CREATE TABLE `orders` (
@@ -127,7 +128,7 @@ CREATE TABLE `orders` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- 转存表中的数据 `orders`
+-- Dumping data for table `orders`
 --
 
 INSERT INTO `orders` (`orderid`, `amount`, `date`, `order_status`, `ship_name`, `ship_customerid`, `ship_dormitory`) VALUES
@@ -137,7 +138,7 @@ INSERT INTO `orders` (`orderid`, `amount`, `date`, `order_status`, `ship_name`, 
 -- --------------------------------------------------------
 
 --
--- 表的结构 `order_items`
+-- Table structure for table `order_items`
 --
 
 CREATE TABLE `order_items` (
@@ -148,7 +149,7 @@ CREATE TABLE `order_items` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- 转存表中的数据 `order_items`
+-- Dumping data for table `order_items`
 --
 
 INSERT INTO `order_items` (`orderid`, `foodid`, `item_price`, `quantity`) VALUES
@@ -199,24 +200,28 @@ ALTER TABLE `order_items`
   ADD PRIMARY KEY (`orderid`,`foodid`);
 
 --
--- 在导出的表使用AUTO_INCREMENT
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- 使用表AUTO_INCREMENT `foods`
+-- AUTO_INCREMENT for table `foods`
 --
 ALTER TABLE `foods`
   MODIFY `foodid` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
 --
--- 使用表AUTO_INCREMENT `merchants`
+-- AUTO_INCREMENT for table `merchants`
 --
 ALTER TABLE `merchants`
   MODIFY `catid` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
 --
--- 使用表AUTO_INCREMENT `orders`
+-- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
   MODIFY `orderid` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+COMMIT;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

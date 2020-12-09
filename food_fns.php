@@ -8,7 +8,7 @@ function calculate_shipping_cost() {
 function get_merchants() {
    // query database for a list of merchants
    $conn = db_connect();
-   $query = "select catid, catname from merchants";
+   $query = "select * from merchants";
    $result = @$conn->query($query);
    if (!$result) {
      return false;
