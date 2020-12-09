@@ -41,7 +41,7 @@ function login_cust($username, $password) {
   
     // check if username is unique
     $result = $conn->query("select * from customers
-                           where name='". $conn->real_escape_string($username)."'
+                           where customerid='". $conn->real_escape_string($username)."'
                            and password = sha1('". $conn->real_escape_string($password)."')");
     if (!$result) {
        return 0;
@@ -74,22 +74,30 @@ function check_cust_user() {
     }
   }
 
-function change_password($username, $old_password, $new_password) {
+function change_password($username, $old_password, $new_password, $kind) {
 // change password for username/old_password to new_password
 // return true or false
 
   // if the old password is right
   // change their password to new_password and return true
   // else return false
-  if (login($username, $old_password)) {
+  if($kind=="customers")
+    $checkr = login_cust($username, $old_password);
+  else
+    $checkr = login($username, $old_password);
+  if ($checkr) {
 
     if (!($conn = db_connect())) {
       return false;
     }
 
-    $result = $conn->query("update admin
+    $idname = "username";
+    if($kind=="customers")
+      $idname = "customerid";
+
+    $result = $conn->query("update $kind
                             set password = sha1('". $conn->real_escape_string($new_password)."')
-                            where username = '". $conn->real_escape_string($username) ."'");
+                            where $idname = '". $conn->real_escape_string($username) ."'");
     if (!$result) {
       return false;  // not changed
     } else {

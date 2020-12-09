@@ -55,9 +55,12 @@ function do_html_header($title = '')
         </td>
         <td align="right" valign="bottom">
           <?php
+          if (isset($_SESSION['cust_user'])) {
+            display_button('edit_cust_form.php', 'edit-cust', 'Update Details');
+          }
           if (isset($_SESSION['admin_user'])) {
             echo "&nbsp;";
-          } else {
+          } else if (isset($_SESSION['cust_user'])) {
             echo "Total Items = " . htmlspecialchars($_SESSION['items']);
           }
           ?>
@@ -66,9 +69,12 @@ function do_html_header($title = '')
           <?php
           if (isset($_SESSION['admin_user'])) {
             display_button('logout.php', 'log-out', 'Log Out');
-          } else {
+          } else if (isset($_SESSION['cust_user'])) {
             display_button('logout_cust.php', 'log-out', 'Log Out');
-            display_button_next('show_cart.php', 'view-cart', 'View Your Shopping Cart');
+            display_button('show_cart.php', 'view-cart', 'View Your Shopping Cart');
+          } else {
+            display_button('cust_signup_form.php', 'sign-up', 'Sign Up');
+            display_button('cust_login.php', 'log-in', 'Log In');
           }
           ?>
       </tr>
@@ -77,7 +83,7 @@ function do_html_header($title = '')
           <?php
           if (isset($_SESSION['admin_user'])) {
             echo "&nbsp;";
-          } else {
+          } else if (isset($_SESSION['cust_user'])) {
             echo "Total Price = ￥" . number_format($_SESSION['total_price'], 2);
           }
           ?>
@@ -223,19 +229,131 @@ height=\"60px\" style=\"border: 1px solid black\"/>";
     echo "<hr />";
   }
 
+  function display_cust_form($cust_array)
+  {
+    // This displays the customer form.
+    // most of the form is in plain HTML with some
+    // optional PHP bits throughout
+?>
+  <form method="post" action="edit_cust.php">
+    <table border="0">
+      <tr>
+        <td>Student Card ID:</td>
+        <td><input type="text" name="customerid" hidden="true" value="<?php echo htmlspecialchars($cust_array['customerid']); ?>" />
+        <?php echo htmlspecialchars($cust_array['customerid']); ?></td>
+      </tr>
+      <tr>
+        <td>Name:</td>
+        <td><input type="text" required="true" name="name" value="<?php echo htmlspecialchars($cust_array['name']); ?>" /></td>
+      </tr>
+      <tr>
+        <td>Delivery Address:</td>
+        <td><input type="text" required="true" name="dormitory" value="<?php echo htmlspecialchars($cust_array['dormitory']); ?>" /></td>
+      </tr>
+      <tr>
+        <td>Sex:</td>
+        <td>
+          <select name="sex" default="<?php echo htmlspecialchars($cust_array['sex']); ?>">
+            <option value ="0">--Please Select--</option>
+            <option value ="1">Male</option>
+            <option value ="2">Female</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td>Age:</td>
+        <td><input type="number" name="age" value="<?php echo htmlspecialchars($cust_array['age']); ?>" /></td>
+      </tr>
+      <tr>
+        <td>Phone:</td>
+        <td><input type="number" required="true" name="phone" value="<?php echo htmlspecialchars($cust_array['phone']); ?>" /></td>
+      </tr>
+      <tr>
+        <td>QQ:</td>
+        <td><input type="number" name="qq" value="<?php echo htmlspecialchars($cust_array['qq']); ?>" /></td>
+      </tr>
+      <tr>
+        <td>Email:</td>
+        <td><input type="email" name="email" value="<?php echo htmlspecialchars($cust_array['email']); ?>" /></td>
+      </tr>
+      <tr>
+      <td><input type="submit" value="Update" /></td>
+      </tr>
+    </table>
+  </form>
+<?php
+  }
+
+function display_cust_signup_form()
+  {
+    // This displays the customer form.
+    // most of the form is in plain HTML with some
+    // optional PHP bits throughout
+?>
+  <form method="post" action="cust_signup.php">
+    <table border="0">
+      <tr>
+        <td>Student Card ID:</td>
+        <td><input type="text" name="customerid" required="true" oninput = "value=value.replace(/[^\d]/g,'')" maxlength="12" value="" /></td>
+      </tr>
+      <tr>
+        <td>Name:</td>
+        <td><input type="text" required="true" name="name" value="" /></td>
+      </tr>
+      <tr>
+        <td>Password:</td>
+        <td><input type="password" required="true" name="password" value="" /></td>
+      </tr>
+      <tr>
+        <td>Delivery Address:</td>
+        <td><input type="text" required="true" name="dormitory" value="" /></td>
+      </tr>
+      <tr>
+        <td>Sex:</td>
+        <td>
+          <select name="sex" default="0">
+            <option value ="0">--Please Select--</option>
+            <option value ="1">Male</option>
+            <option value ="2">Female</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td>Age:</td>
+        <td><input type="number" name="age" value="" /></td>
+      </tr>
+      <tr>
+        <td>Phone:</td>
+        <td><input type="number" required="true" name="phone" value="" /></td>
+      </tr>
+      <tr>
+        <td>QQ:</td>
+        <td><input type="number" name="qq" value="" /></td>
+      </tr>
+      <tr>
+        <td>Email:</td>
+        <td><input type="email" name="email" value="" /></td>
+      </tr>
+      <tr>
+      <td><input type="submit" value="Sign Up" /></td>
+      </tr>
+    </table>
+  </form>
+<?php
+  }
+
   function display_foods($food_array)
   {
     //display all foods in the array passed in
     if (!empty($_GET['key']) && !is_array($food_array)) {
-      echo "<p>No foods currently available with the keyword: ".$_GET['key']."</p>";
-    }
-    else if (!is_array($food_array)) {
+      echo "<p>No foods currently available with the keyword: " . $_GET['key'] . "</p>";
+    } else if (!is_array($food_array)) {
       echo "<p>No foods currently available in this merchant</p>";
     } else {
       echo "
       <form  align=\"right\" method=\"get\" action=\"show_cat.php\">
       Search Food:
-      <input type=\"hidden\" name=\"catid\" value=\"".$_GET['catid']."\">
+      <input type=\"hidden\" name=\"catid\" value=\"" . $_GET['catid'] . "\">
       <input type=\"text\" name=\"key\">
       <input type=\"submit\">
       </form>";
@@ -290,7 +408,7 @@ height=\"60px\" style=\"border: 1px solid black\"/>";
       echo "</li><li><strong>Description:</strong> ";
       echo htmlspecialchars($food['description']);
       echo "</li><li><strong>Status:</strong> ";
-      if ($food['status']==1){
+      if ($food['status'] == 1) {
         echo "Available";
       } else {
         echo "Unavailable";
@@ -528,8 +646,8 @@ height=\"60px\" style=\"border: 1px solid black\"/>";
   <form method="post" action="cust.php">
     <table bgcolor="#cccccc">
       <tr>
-        <td>Username:</td>
-        <td><input type="text" name="username" /></td>
+        <td>Student Card ID:</td>
+        <td><input type="number" name="customerid" /></td>
       </tr>
       <tr>
         <td>Password:</td>
@@ -563,13 +681,6 @@ height=\"60px\" style=\"border: 1px solid black\"/>";
     echo "<div align=\"right\"><a href=\"" . htmlspecialchars($target) . "\">
           <img src=\"images/" . htmlspecialchars($image) . ".gif\"
            alt=\"" . htmlspecialchars($alt) . "\" border=\"0\" height=\"50\"
-           width=\"135\"/></a></div>";
-  }
-  function display_button_next($target, $image, $alt)
-  {
-    echo "<div align=\"right\"><a href=\"" . htmlspecialchars($target) . "\">
-          <img src=\"images/" . htmlspecialchars($image) . ".gif\"
-           alt=\"" . htmlspecialchars($alt) . "\" border=\"20\" height=\"50\"
            width=\"135\"/></a></div>";
   }
 
