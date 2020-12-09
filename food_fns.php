@@ -45,8 +45,16 @@ function get_foods($catid) {
      return false;
    }
 
+   if (!empty($_GET['key'])) {
+      $key = $_GET['key'];
+      $k = "title like '%$key%'";
+  } else {
+      $k = "1";
+      $key = "";
+  }
+
    $conn = db_connect();
-   $query = "select * from foods where catid = '".$conn->real_escape_string($catid)."'";
+   $query = "select * from foods where catid = '".$conn->real_escape_string($catid)."' and ".$k;
    $result = @$conn->query($query);
    if (!$result) {
      return false;

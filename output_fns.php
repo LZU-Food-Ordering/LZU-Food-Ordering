@@ -225,9 +225,19 @@ height=\"60px\" style=\"border: 1px solid black\"/>";
   function display_foods($food_array)
   {
     //display all foods in the array passed in
-    if (!is_array($food_array)) {
+    if (!empty($_GET['key']) && !is_array($food_array)) {
+      echo "<p>No foods currently available with the keyword: ".$_GET['key']."</p>";
+    }
+    else if (!is_array($food_array)) {
       echo "<p>No foods currently available in this merchant</p>";
     } else {
+      echo "
+      <form  align=\"right\" method=\"get\" action=\"show_cat.php\">
+      Search Food:
+      <input type=\"hidden\" name=\"catid\" value=\"".$_GET['catid']."\">
+      <input type=\"text\" name=\"key\">
+      <input type=\"submit\">
+      </form>";
       //create table
       echo "<table width=\"100%\" border=\"0\">";
 
@@ -270,12 +280,20 @@ height=\"60px\" style=\"border: 1px solid black\"/>";
       echo "<td><ul>";
       echo "<li><strong>Name:</strong> ";
       echo htmlspecialchars($food['rest']);
-      echo "</li><li><strong>Food id:</strong> ";
-      echo htmlspecialchars($food['foodid']);
+      echo "</li><li><strong>Stock:</strong> ";
+      echo htmlspecialchars($food['stock']);
+      echo "</li><li><strong>Provided by:</strong> ";
+      echo htmlspecialchars($food['rest']);
       echo "</li><li><strong>Our Price:</strong> ";
       echo number_format($food['price'], 2);
       echo "</li><li><strong>Description:</strong> ";
       echo htmlspecialchars($food['description']);
+      echo "</li><li><strong>Status:</strong> ";
+      if ($food['status']==1){
+        echo "Available";
+      } else {
+        echo "Unavailable";
+      }
       echo "</li></ul></td></tr></table>";
     } else {
       echo "<p>The details of this food cannot be displayed at this time.</p>";
