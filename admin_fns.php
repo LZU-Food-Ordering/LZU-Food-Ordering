@@ -244,6 +244,54 @@ function update_merchant($catid, $catname)
   }
 }
 
+function update_cust($detail_array)
+{
+  // change the name of merchant with catid in the database
+
+  $conn = db_connect();
+
+  $query = "update customers
+             set name='" . $conn->real_escape_string($detail_array['name']) . "',
+                 dormitory='" . $conn->real_escape_string($detail_array['dormitory']) . "',
+                 sex=" . $conn->real_escape_string($detail_array['sex']) . ",
+                 age=" . $conn->real_escape_string($detail_array['age']) . ",
+                 phone='" . $conn->real_escape_string($detail_array['phone']) . "',
+                 qq='" . $conn->real_escape_string($detail_array['qq']) . "',
+                 email='" . $conn->real_escape_string($detail_array['email']) . "'
+             where customerid='" . $conn->real_escape_string($detail_array['customerid']) . "'";
+  $result = @$conn->query($query);
+  if (!$result) {
+    return false;
+  } else {
+    return true;
+  }
+}
+
+function cust_signup($detail_array)
+{
+  // change the name of merchant with catid in the database
+
+  $conn = db_connect();
+
+  $query = "INSERT INTO `customers`(`customerid`, `name`, `dormitory`, `password`, 
+                                    `sex`, `age`, `phone`, `qq`, `email`) 
+            VALUES ('". $conn->real_escape_string($detail_array['customerid'])."',
+                    '".$conn->real_escape_string($detail_array['name']) . "',
+                    '" . $conn->real_escape_string($detail_array['dormitory']) . "',
+                    sha1('" . $conn->real_escape_string($detail_array['password']) . "'),
+                    " . $conn->real_escape_string($detail_array['sex']) . ",
+                    " . $conn->real_escape_string($detail_array['age']) . ",
+                    '" . $conn->real_escape_string($detail_array['phone']) . "',
+                    '" . $conn->real_escape_string($detail_array['qq']) . "',
+                    '" . $conn->real_escape_string($detail_array['email']) . "')";
+  $result = @$conn->query($query);
+  if (!$result) {
+    return false;
+  } else {
+    return true;
+  }
+}
+
 function update_food(
   $oldfoodid,
   $foodid,

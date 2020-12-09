@@ -1,0 +1,22 @@
+<?php
+
+// include function files for this application
+require_once('food_sc_fns.php');
+session_start();
+
+do_html_header("Updating your details");
+if (isset($_SESSION['cust_user'])) {
+  if (isset($_POST)) {
+    if(update_cust($_POST)) {
+      echo "<p>Your details was updated.</p>";
+    } else {
+      echo "<p>Your details could not be updated.</p>";
+    }
+  } else {
+    echo "<p>You have not filled out the form.  Please try again.</p>";
+  }
+  do_html_url("index.php", "Back to Home Page");
+} else {
+  echo "<p>You are not authorised to view this page.</p>";
+}
+do_html_footer();

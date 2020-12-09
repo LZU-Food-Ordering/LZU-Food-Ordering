@@ -4,15 +4,15 @@
 require_once('food_sc_fns.php');
 session_start();
 
-if(isset($_POST['username'])&& isset($_POST['passwd'])){
+if(isset($_POST['customerid'])&& isset($_POST['passwd'])){
   // they have just tried logging in
 
-    $username = $_POST['username'];
+    $customerid = $_POST['customerid'];
     $passwd = $_POST['passwd'];
 
-    if (login_cust($username, $passwd)) {
+    if (login_cust($customerid, $passwd)) {
       // if they are in the database register the user id
-      $_SESSION['cust_user'] = $username;
+      $_SESSION['cust_user'] = $customerid;
 
     } else {
       // unsuccessful login
