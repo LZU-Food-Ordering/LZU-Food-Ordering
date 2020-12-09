@@ -3,7 +3,6 @@
   // The shopping cart needs sessions, so start one
   session_start();
   do_html_header("Welcome to LZU Food Ordering");
-
   echo "<p>Please choose a Restaurant:</p>";
 
   // get merchants out of database
@@ -19,5 +18,8 @@
   // if logged in as admin, show add, delete, edit cat links
   if(isset($_SESSION['admin_user'])) {
     display_button("admin.php", "admin-menu", "Admin Menu");
+  }
+  if(isset($_SESSION['cust_user'])) {
+    
   }
   do_html_footer();

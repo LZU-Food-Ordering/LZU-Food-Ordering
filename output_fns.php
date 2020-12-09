@@ -67,7 +67,8 @@ function do_html_header($title = '')
           if (isset($_SESSION['admin_user'])) {
             display_button('logout.php', 'log-out', 'Log Out');
           } else {
-            display_button('show_cart.php', 'view-cart', 'View Your Shopping Cart');
+            display_button('logout_cust.php', 'log-out', 'Log Out');
+            display_button_next('show_cart.php', 'view-cart', 'View Your Shopping Cart');
           }
           ?>
       </tr>
@@ -520,6 +521,30 @@ height=\"60px\" style=\"border: 1px solid black\"/>";
 <?php
   }
 
+  function display_login_form_cust()
+  {
+    // dispaly form asking for name and password
+?>
+  <form method="post" action="cust.php">
+    <table bgcolor="#cccccc">
+      <tr>
+        <td>Username:</td>
+        <td><input type="text" name="username" /></td>
+      </tr>
+      <tr>
+        <td>Password:</td>
+        <td><input type="password" name="passwd" /></td>
+      </tr>
+      <tr>
+        <td colspan="2" align="center">
+          <input type="submit" value="Log in" /></td>
+      </tr>
+      <tr>
+    </table>
+  </form>
+<?php
+  }
+
   function display_admin_menu()
   {
 ?>
@@ -538,6 +563,13 @@ height=\"60px\" style=\"border: 1px solid black\"/>";
     echo "<div align=\"right\"><a href=\"" . htmlspecialchars($target) . "\">
           <img src=\"images/" . htmlspecialchars($image) . ".gif\"
            alt=\"" . htmlspecialchars($alt) . "\" border=\"0\" height=\"50\"
+           width=\"135\"/></a></div>";
+  }
+  function display_button_next($target, $image, $alt)
+  {
+    echo "<div align=\"right\"><a href=\"" . htmlspecialchars($target) . "\">
+          <img src=\"images/" . htmlspecialchars($image) . ".gif\"
+           alt=\"" . htmlspecialchars($alt) . "\" border=\"20\" height=\"50\"
            width=\"135\"/></a></div>";
   }
 
