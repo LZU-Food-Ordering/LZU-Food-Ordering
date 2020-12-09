@@ -22,5 +22,3 @@ if (check_admin_user()) {
 }
 
 do_html_footer();
-
-?>

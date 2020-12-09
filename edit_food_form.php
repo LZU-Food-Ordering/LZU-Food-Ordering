@@ -16,5 +16,3 @@ if (check_admin_user()) {
   echo "<p>You are not authorized to enter the administration area.</p>";
 }
 do_html_footer();
-
-?>

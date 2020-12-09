@@ -28,4 +28,3 @@
  }
  do_html_url("admin.php", "Back to administration menu");
  do_html_footer();
-?>

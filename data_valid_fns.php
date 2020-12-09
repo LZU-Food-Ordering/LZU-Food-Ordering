@@ -14,5 +14,3 @@ function valid_email($address) {
   // check an email address is possibly valid
   return filter_var($address, FILTER_VALIDATE_EMAIL);
 }
-
-?>

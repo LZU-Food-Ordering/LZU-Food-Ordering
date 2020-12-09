@@ -66,4 +66,3 @@
   display_button("checkout.php", "go-to-checkout", "Go To Checkout");
 
   do_html_footer();
-?>

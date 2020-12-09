@@ -18,5 +18,3 @@ function db_result_to_array($result) {
 
    return $res_array;
 }
-
-?>

@@ -102,4 +102,3 @@ function calculate_items($cart) {
   }
   return $items;
 }
-?>

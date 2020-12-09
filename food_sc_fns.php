@@ -6,4 +6,3 @@
   include_once('user_auth_fns.php');
   include_once('admin_fns.php');
   include_once('order_fns.php');
-?>

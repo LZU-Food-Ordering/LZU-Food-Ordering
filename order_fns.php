@@ -94,5 +94,3 @@ function insert_order($order_details) {
 
   return $orderid;
 }
-
-?>

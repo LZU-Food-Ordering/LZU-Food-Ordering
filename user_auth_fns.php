@@ -63,6 +63,3 @@ function change_password($username, $old_password, $new_password) {
     return false; // old password was wrong
   }
 }
-
-
-?>

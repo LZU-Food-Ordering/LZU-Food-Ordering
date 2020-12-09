@@ -21,4 +21,3 @@
     display_button("admin.php", "admin-menu", "Admin Menu");
   }
   do_html_footer();
-?>

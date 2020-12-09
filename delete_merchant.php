@@ -21,5 +21,3 @@ if (check_admin_user()) {
   echo "<p>You are not authorised to view this page.</p>";
 }
 do_html_footer();
-
-?>

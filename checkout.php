@@ -17,4 +17,3 @@
   display_button("show_cart.php", "continue-shopping", "Continue Shopping");
 
   do_html_footer();
-?>
