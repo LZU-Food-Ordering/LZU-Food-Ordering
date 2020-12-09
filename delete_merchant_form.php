@@ -4,15 +4,9 @@
 require_once('food_sc_fns.php');
 session_start();
 
-do_html_header("Edit Resaurant");
+do_html_header("Delete a Restaurant");
 if (check_admin_user()) {
-  if ($catname = get_merchant_name($_GET['catid'])) {
-    $catid = $_GET['catid'];
-    $cat = compact('catname', 'catid');
-    display_merchant_form($cat);
-  } else {
-    echo "<p>Could not retrieve merchant details.</p>";
-  }
+  delete_merchant_form();
   do_html_url("admin.php", "Back to administration menu");
 } else {
   echo "<p>You are not authorized to enter the administration area.</p>";

@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.3
+-- version 4.6.5.2
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 08, 2020 at 05:20 PM
--- Server version: 10.4.14-MariaDB
--- PHP Version: 7.4.11
+-- Generation Time: 2020-12-09 06:04:37
+-- 服务器版本： 10.1.21-MariaDB
+-- PHP Version: 5.6.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -24,7 +23,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `admin`
+-- 表的结构 `admin`
 --
 
 CREATE TABLE `admin` (
@@ -33,7 +32,7 @@ CREATE TABLE `admin` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `admin`
+-- 转存表中的数据 `admin`
 --
 
 INSERT INTO `admin` (`username`, `password`) VALUES
@@ -42,7 +41,7 @@ INSERT INTO `admin` (`username`, `password`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `customers`
+-- 表的结构 `customers`
 --
 
 CREATE TABLE `customers` (
@@ -52,18 +51,19 @@ CREATE TABLE `customers` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `customers`
+-- 转存表中的数据 `customers`
 --
 
 INSERT INTO `customers` (`customerid`, `name`, `dormitory`) VALUES
 (' 1', '2333', '1'),
+(' 32019876778', 'wang wu', '8#333'),
 ('320180915555', 'zhang san', '4#123'),
 ('320180916666', 'li si', '5#233');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `foods`
+-- 表的结构 `foods`
 --
 
 CREATE TABLE `foods` (
@@ -78,7 +78,7 @@ CREATE TABLE `foods` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `foods`
+-- 转存表中的数据 `foods`
 --
 
 INSERT INTO `foods` (`foodid`, `title`, `catid`, `price`, `stock`, `status`, `description`, `rest`) VALUES
@@ -89,7 +89,7 @@ INSERT INTO `foods` (`foodid`, `title`, `catid`, `price`, `stock`, `status`, `de
 -- --------------------------------------------------------
 
 --
--- Table structure for table `merchants`
+-- 表的结构 `merchants`
 --
 
 CREATE TABLE `merchants` (
@@ -101,7 +101,7 @@ CREATE TABLE `merchants` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `merchants`
+-- 转存表中的数据 `merchants`
 --
 
 INSERT INTO `merchants` (`catid`, `catname`, `phone`, `address`, `recommend`) VALUES
@@ -113,7 +113,7 @@ INSERT INTO `merchants` (`catid`, `catname`, `phone`, `address`, `recommend`) VA
 -- --------------------------------------------------------
 
 --
--- Table structure for table `orders`
+-- 表的结构 `orders`
 --
 
 CREATE TABLE `orders` (
@@ -127,16 +127,17 @@ CREATE TABLE `orders` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `orders`
+-- 转存表中的数据 `orders`
 --
 
 INSERT INTO `orders` (`orderid`, `amount`, `date`, `order_status`, `ship_name`, `ship_customerid`, `ship_dormitory`) VALUES
-(1, 204.95, '2020-12-08', 'PARTIAL', '2333', '1', '1');
+(1, 204.95, '2020-12-08', 'PARTIAL', '2333', '1', '1'),
+(2, 84.98, '2020-12-09', 'PARTIAL', 'wang wu', '320198767782', '8#333');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `order_items`
+-- 表的结构 `order_items`
 --
 
 CREATE TABLE `order_items` (
@@ -147,13 +148,15 @@ CREATE TABLE `order_items` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `order_items`
+-- 转存表中的数据 `order_items`
 --
 
 INSERT INTO `order_items` (`orderid`, `foodid`, `item_price`, `quantity`) VALUES
 (1, 1, 49.99, 1),
 (1, 2, 34.99, 1),
-(1, 3, 39.99, 3);
+(1, 3, 39.99, 3),
+(2, 1, 49.99, 1),
+(2, 2, 34.99, 1);
 
 --
 -- Indexes for dumped tables
@@ -196,28 +199,24 @@ ALTER TABLE `order_items`
   ADD PRIMARY KEY (`orderid`,`foodid`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- 在导出的表使用AUTO_INCREMENT
 --
 
 --
--- AUTO_INCREMENT for table `foods`
+-- 使用表AUTO_INCREMENT `foods`
 --
 ALTER TABLE `foods`
   MODIFY `foodid` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
 --
--- AUTO_INCREMENT for table `merchants`
+-- 使用表AUTO_INCREMENT `merchants`
 --
 ALTER TABLE `merchants`
-  MODIFY `catid` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
+  MODIFY `catid` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
--- AUTO_INCREMENT for table `orders`
+-- 使用表AUTO_INCREMENT `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `orderid` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-COMMIT;
-
+  MODIFY `orderid` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

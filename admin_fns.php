@@ -21,7 +21,7 @@ function display_merchant_form($merchant = '') {
       action="<?php echo $edit ? 'edit_merchant.php' : 'insert_merchant.php'; ?>">
   <table border="0">
   <tr>
-    <td>merchant Name:</td>
+    <td>Restaurant Name:</td>
     <td><input type="text" name="catname" size="40" maxlength="40"
           value="<?php echo htmlspecialchars($edit ? $merchant['catname'] : ''); ?>" /></td>
    </tr>
@@ -33,23 +33,26 @@ function display_merchant_form($merchant = '') {
          }
       ?>
       <input type="submit"
-       value="<?php echo $edit ? 'Update' : 'Add'; ?> merchant" /></form>
+       value="<?php echo $edit ? 'Update' : 'Add'; ?> Restaurant" /></form>
      </td>
-     <?php
-        if ($edit) {
-          //allow deletion of existing merchants
-          echo "<td>
-                <form method=\"post\" action=\"delete_merchant.php\">
-                <input type=\"hidden\" name=\"catid\" value=\"". htmlspecialchars($merchant['catid'])."\" />
-                <input type=\"submit\" value=\"Delete merchant\" />
-                </form></td>";
-       }
-     ?>
   </tr>
   </table>
 <?php
 }
 
+function delete_merchant_form(){
+?>
+<td>
+    <form method=post action=delete_merchant.php>
+  <tr>
+    <td>Restaurant Name:</td>
+    <td><input type="text" name="catname" size="40" maxlength="40"
+          value="" /></td>
+   </tr>
+    <input type=submit value="Delete Restaurant">
+    </form></td>
+<?php
+}
 function display_food_form($food = '') {
 // This displays the food form.
 // It is very similar to the merchant form.
@@ -174,13 +177,14 @@ function insert_merchant($catname) {
              from merchants
              where catname='".$conn->real_escape_string($catname)."'";
    $result = $conn->query($query);
-   if ((!$result) || ($result->num_rows!=0)) {
+   if ((!$result) || ($result->num_rows!=0)){
      return false;
    }
 
    // insert new merchant
-   $query = "insert into merchants values
-            ('', '".$conn->real_escape_string($catname)."')";
+   $query = "INSERT INTO `merchants`(`catname`) VALUES
+            ('".$conn->real_escape_string($catname)."')";
+            print_r($query);
    $result = $conn->query($query);
    if (!$result) {
      return false;
@@ -193,12 +197,10 @@ function insert_food($foodid, $title, $author, $catid, $price, $description) {
 // insert a new food into the database
 
    $conn = db_connect();
-
    // check food does not already exist
    $query = "select *
              from foods
              where foodid='".$conn->real_escape_string($foodid)."'";
-
    $result = $conn->query($query);
    if ((!$result) || ($result->num_rows!=0)) {
      return false;
@@ -258,7 +260,7 @@ function update_food($oldfoodid, $foodid, $title, $author, $catid,
    }
 }
 
-function delete_merchant($catid) {
+function delete_merchant($catname) {
 // Remove the merchant identified by catid from the db
 // If there are foods in the merchant, it will not
 // be removed and the function will return false.
@@ -269,7 +271,7 @@ function delete_merchant($catid) {
    // to avoid deletion anomalies
    $query = "select *
              from foods
-             where catid='".$conn->real_escape_string($catid)."'";
+             where catid=(select catid from merchants where catname='".$conn->real_escape_string($catname)."')";
 
    $result = @$conn->query($query);
    if ((!$result) || (@$result->num_rows > 0)) {
@@ -277,7 +279,7 @@ function delete_merchant($catid) {
    }
 
    $query = "delete from merchants
-             where catid='".$conn->real_escape_string($catid)."'";
+             where catname='".$conn->real_escape_string($catname)."'";
    $result = @$conn->query($query);
    if (!$result) {
      return false;

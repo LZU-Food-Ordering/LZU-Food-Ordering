@@ -4,7 +4,7 @@
 require_once('food_sc_fns.php');
 session_start();
 
-do_html_header("Add a merchant");
+do_html_header("Add a Restaurant");
 if (check_admin_user()) {
   display_merchant_form();
   do_html_url("admin.php", "Back to administration menu");

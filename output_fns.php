@@ -368,7 +368,8 @@ function display_admin_menu() {
 ?>
 <br />
 <a href="index.php">Go to main site</a><br />
-<a href="insert_merchant_form.php">Add a new merchant</a><br />
+<a href="insert_merchant_form.php">Add a new Restaurant</a><br />
+<a href="delete_merchant_form.php">Delete a Restaurant</a><br />
 <a href="insert_food_form.php">Add a new food</a><br />
 <a href="change_password_form.php">Change admin password</a><br />
 <?php
