@@ -44,6 +44,10 @@ function do_html_header($title = '')
       a {
         color: #000000
       }
+
+      #user_logo {
+        width: 100px;
+      }
     </style>
   </head>
 

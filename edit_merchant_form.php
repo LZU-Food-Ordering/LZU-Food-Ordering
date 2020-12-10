@@ -11,6 +11,7 @@ if (check_admin_user()) {
       $catid = $_GET['catid'];
       $cat = get_merchant_details($catid);
       display_merchant_form($cat);
+      do_html_url("upload_image.php?catid=".$_GET['catid'], "Edit image");
     } else {
       echo "<p>Could not retrieve merchant details.</p>";
     }

@@ -187,6 +187,49 @@ function display_password_form()
   <?php
 }
 
+function display_picture_form($location)
+{
+?>
+</form>
+  <br />
+  <form method="post" action="upload_image.php" enctype="multipart/form-data">
+    <table width="250" cellpadding="2" cellspacing="0" bgcolor="#cccccc">
+      <tr>
+        <td>
+          <?php
+          if(@file_exists($location)){
+            echo "<img id='user_logo' src='$location'>";
+          } else {
+            echo "You haven't uploaded a picture for it!";
+          }
+          ?>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <input type="hidden" name="MAX_FILE_SIZE" value="41943040">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <input type="hidden" name="location" value="<?php echo $location;?>">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <input type="file" name="upfile">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <input type="submit" value="Upload File">
+        </td>
+      </tr>
+    </table>
+    <br />
+  <?php
+}
+
 function insert_merchant($cat_array)
 {
   // inserts a new merchant into the database
