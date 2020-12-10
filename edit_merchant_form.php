@@ -25,7 +25,17 @@ if (check_admin_user()) {
     action_on_merchants($cat_array,"edit_merchant_form");
   }
   do_html_url("admin.php", "Back to administration menu");
-} else {
+} 
+else if(check_rest_user()){
+    $catname = get_merchant_name($_SESSION['rest_user']);
+    $conn = db_connect();
+    $query="select catid from merchants where catname='". $conn->real_escape_string($catname);
+    $catid=$conn->query($query);
+    $cat = compact('catname', 'catid');
+    display_merchant_form($cat);
+  
+}
+else {
   echo "<p>You are not authorized to enter the administration area.</p>";
 }
 do_html_footer();
