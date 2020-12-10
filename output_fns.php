@@ -645,6 +645,10 @@ function display_cust_signup_form()
         <td><input type="password" name="passwd" /></td>
       </tr>
       <tr>
+      <td>administrator<input type="radio" name="category" value="admin"/></td>
+      <td>Restaurant<input type="radio" name="category" value="rest"/></td>
+      </tr>
+      <tr>
         <td colspan="2" align="center">
           <input type="submit" value="Log in" /></td>
       </tr>
@@ -689,6 +693,16 @@ function display_cust_signup_form()
   <a href="cust_manage_form.php">Customer Management</a><br />
   <a href="insert_food_form.php">Add a new food</a><br />
   <a href="change_password_form.php">Change admin password</a><br />
+<?php
+  }
+
+  function display_rest_menu()
+  {
+?>
+  <br />
+  <a href="index.php">Go to main site</a><br />
+  <a href="edit_merchant_form.php">Update a Restaurant</a><br />
+  <a href="insert_food_form.php">Add a new food</a><br />
 <?php
   }
 

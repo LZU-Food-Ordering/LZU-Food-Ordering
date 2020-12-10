@@ -2,12 +2,13 @@
 
 require_once('db_fns.php');
 
-function login($username, $password) {
+function login($username, $password,$cate) {
 // check username and password with db
 // if yes, return true
 // else return false
 
   // connect to db
+if($cate=='admin'){
   $conn = db_connect();
   if (!$conn) {
     return 0;
@@ -26,7 +27,28 @@ function login($username, $password) {
   } else {
      return 0;
   }
+}else if($cate=='rest'){
+  $conn = db_connect();
+  if (!$conn) {
+    return 0;
+  }
+  // check if username is unique
+  $result = $conn->query("select * from merchants
+                         where catname='". $conn->real_escape_string($username)."'
+                         and password = sha1('". $conn->real_escape_string($password)."')");
+  if (!$result) {
+     return 0;
+  }
+
+  if ($result->num_rows>0) {
+     return 1;
+  } else {
+     return 0;
+  }
 }
+}
+
+
 
 function login_cust($username, $password) {
   // check username and password with db
@@ -63,6 +85,16 @@ function check_admin_user() {
     return false;
   }
 }
+
+function check_rest_user() {
+  // see if somebody is logged in and notify them if not
+  
+    if (isset($_SESSION['rest_user'])) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
 function check_cust_user() {
   // see if somebody is logged in and notify them if not

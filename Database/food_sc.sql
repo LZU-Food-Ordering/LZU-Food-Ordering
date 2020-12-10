@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.3
+-- version 4.6.5.2
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 09, 2020 at 06:00 PM
--- Server version: 10.4.14-MariaDB
--- PHP Version: 7.4.11
+-- Generation Time: 2020-12-10 11:10:32
+-- 服务器版本： 10.1.21-MariaDB
+-- PHP Version: 5.6.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -24,7 +23,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `admin`
+-- 表的结构 `admin`
 --
 
 CREATE TABLE `admin` (
@@ -33,7 +32,7 @@ CREATE TABLE `admin` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `admin`
+-- 转存表中的数据 `admin`
 --
 
 INSERT INTO `admin` (`username`, `password`) VALUES
@@ -42,7 +41,7 @@ INSERT INTO `admin` (`username`, `password`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `customers`
+-- 表的结构 `customers`
 --
 
 CREATE TABLE `customers` (
@@ -58,19 +57,17 @@ CREATE TABLE `customers` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `customers`
+-- 转存表中的数据 `customers`
 --
 
 INSERT INTO `customers` (`customerid`, `name`, `dormitory`, `password`, `sex`, `age`, `phone`, `qq`, `email`) VALUES
 ('1', 'hahah', '3#420', '356a192b7913b04c54574d18c28d46e6395428ab', 1, 2, '7410498286', '', ''),
-('320170908961', 'cust', '1', '4e72d9caec529c5cadf0a9dd5d3799831ce631f6', 0, 0, '13876789807', '', ''),
-('320180915555', 'zhang san', '4#123', '4e72d9caec529c5cadf0a9dd5d3799831ce631f6', 0, 0, '13193475349', '', ''),
-('320180916666', 'Cust', '5#233', '4e72d9caec529c5cadf0a9dd5d3799831ce631f6', 1, 13, '13293479934', '121231231', 'hahah@lzu.edu.cn');
+('320180915555', 'zhang san', '4#123', '4e72d9caec529c5cadf0a9dd5d3799831ce631f6', 0, 0, '13193475349', '', '');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `foods`
+-- 表的结构 `foods`
 --
 
 CREATE TABLE `foods` (
@@ -85,7 +82,7 @@ CREATE TABLE `foods` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `foods`
+-- 转存表中的数据 `foods`
 --
 
 INSERT INTO `foods` (`foodid`, `title`, `catid`, `price`, `stock`, `status`, `description`, `rest`) VALUES
@@ -96,7 +93,7 @@ INSERT INTO `foods` (`foodid`, `title`, `catid`, `price`, `stock`, `status`, `de
 -- --------------------------------------------------------
 
 --
--- Table structure for table `merchants`
+-- 表的结构 `merchants`
 --
 
 CREATE TABLE `merchants` (
@@ -104,23 +101,24 @@ CREATE TABLE `merchants` (
   `catname` char(60) NOT NULL,
   `phone` char(20) DEFAULT NULL,
   `address` char(100) DEFAULT NULL,
-  `recommend` int(10) UNSIGNED DEFAULT NULL
+  `recommend` int(10) UNSIGNED DEFAULT NULL,
+  `password` char(40) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `merchants`
+-- 转存表中的数据 `merchants`
 --
 
-INSERT INTO `merchants` (`catid`, `catname`, `phone`, `address`, `recommend`) VALUES
-(1, 'Zhilan Yuan', '1823123123', 'north', 1),
-(2, 'Yushu Yuan', '18234234234', 'east', 1),
-(3, 'QIngzhen restaurant', '18232131231', 'south', 1),
-(4, 'Jiaoshi restaurant', '1832423432', 'west', 1);
+INSERT INTO `merchants` (`catid`, `catname`, `phone`, `address`, `recommend`, `password`) VALUES
+(1, 'Zhilan Yuan', '1823123123', 'north', 1, 'aa92b1d81d3ace799263be028825d6eae985f58e'),
+(2, 'Yushu Yuan', '18234234234', 'east', 1, '1a007c4767c86eb944624e95c21a6a2acb60342c'),
+(3, 'QIngzhen restaurant', '18232131231', 'south', 1, '4399be6c0ab0de802b0470340ddf6ba1c13289ea'),
+(4, 'Jiaoshi restaurant', '1832423432', 'west', 1, '54c07330c2a825a0b2d5b66faf330439f74a13e8');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `orders`
+-- 表的结构 `orders`
 --
 
 CREATE TABLE `orders` (
@@ -134,7 +132,7 @@ CREATE TABLE `orders` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `orders`
+-- 转存表中的数据 `orders`
 --
 
 INSERT INTO `orders` (`orderid`, `amount`, `date`, `order_status`, `ship_name`, `ship_customerid`, `ship_dormitory`) VALUES
@@ -144,7 +142,7 @@ INSERT INTO `orders` (`orderid`, `amount`, `date`, `order_status`, `ship_name`, 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `order_items`
+-- 表的结构 `order_items`
 --
 
 CREATE TABLE `order_items` (
@@ -155,7 +153,7 @@ CREATE TABLE `order_items` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `order_items`
+-- 转存表中的数据 `order_items`
 --
 
 INSERT INTO `order_items` (`orderid`, `foodid`, `item_price`, `quantity`) VALUES
@@ -206,28 +204,24 @@ ALTER TABLE `order_items`
   ADD PRIMARY KEY (`orderid`,`foodid`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- 在导出的表使用AUTO_INCREMENT
 --
 
 --
--- AUTO_INCREMENT for table `foods`
+-- 使用表AUTO_INCREMENT `foods`
 --
 ALTER TABLE `foods`
   MODIFY `foodid` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
 --
--- AUTO_INCREMENT for table `merchants`
+-- 使用表AUTO_INCREMENT `merchants`
 --
 ALTER TABLE `merchants`
-  MODIFY `catid` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
-
+  MODIFY `catid` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
--- AUTO_INCREMENT for table `orders`
+-- 使用表AUTO_INCREMENT `orders`
 --
 ALTER TABLE `orders`
   MODIFY `orderid` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-COMMIT;
-
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
