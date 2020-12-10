@@ -671,6 +671,7 @@ function display_cust_signup_form()
   <a href="insert_merchant_form.php">Add a new Restaurant</a><br />
   <a href="edit_merchant_form.php">Update a Restaurant</a><br />
   <a href="delete_merchant_form.php">Delete a Restaurant</a><br />
+  <a href="cust_manage_form.php">Customer Management</a><br />
   <a href="insert_food_form.php">Add a new food</a><br />
   <a href="change_password_form.php">Change admin password</a><br />
 <?php
