@@ -285,7 +285,7 @@ height=\"60px\" style=\"border: 1px solid black\"/>";
     ?>
     <form method="post" action="edit_cust.php">
     <tr>
-      <td><input type="hidden" name="de_name" value=<?php echo $cust_array['name']?>></td>
+      <td><input type="hidden" name="de_id" value=<?php echo $cust_array['customerid']?>></td>
     </tr>
     <tr>
       <td><input type="submit" value="Delete" /></td>

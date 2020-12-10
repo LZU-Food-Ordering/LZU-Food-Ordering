@@ -25,12 +25,12 @@ function get_cust() {
  }
 
  
- function display_cust($custname)
+ function display_cust($custdetails)
  {
    //display all foods in the array passed in
-   if (!empty($_GET['key']) && !is_array($custname)) {
+   if (!empty($_GET['key']) && !is_array($custdetails)) {
      echo "<p>No customer currently available with the keyword: " . $_GET['key'] . "</p>";
-   } else if (!is_array($custname)) {
+   } else if (!is_array($custdetails)) {
      echo "<p>No customer currently available</p>";
    } else {
      echo "
@@ -43,10 +43,10 @@ function get_cust() {
      echo "<table width=\"100%\" border=\"0\">";
 
      //create a table row for each cust
-     foreach ($custname as $row) {
-       $url = "show_cust.php?name=" . urlencode($row['name']);
+     foreach ($custdetails as $row) {
+       $url = "show_cust.php?customerid=" . urlencode($row['customerid']);
        echo "<tr><td>";
-       $name = " name:".htmlspecialchars($row['name']) . " customerid:" . htmlspecialchars($row['customerid']) . " Dormitory:" . htmlspecialchars($row['dormitory']);
+       $name = htmlspecialchars($row['customerid']). " ".htmlspecialchars($row['name']);
        do_html_url($url, $name);
        echo "</td></tr>";
      }
@@ -57,20 +57,20 @@ function get_cust() {
    echo "<hr />";
  }
 
- function get_cust_details($name) {
-    // query database for all details for a particular food
-    if ((!$name) || ($name=='')) {
-       return false;
-    }
-    $conn = db_connect();
-    $query = "select * from customers where name='".$conn->real_escape_string($name)."'";
-    $result = @$conn->query($query);
-    if (!$result) {
-       return false;
-    }
-    $result = @$result->fetch_assoc();
-    return $result;
+ function get_cust_details($customerid) {
+  // query database for all details for a particular customer
+  if ((!$customerid) || ($customerid=='')) {
+     return false;
   }
+  $conn = db_connect();
+  $query = "select * from customers where customerid='".$conn->real_escape_string($customerid)."'";
+  $result = @$conn->query($query);
+  if (!$result) {
+     return false;
+  }
+  $result = @$result->fetch_assoc();
+  return $result;
+}
 
   function display_cust_details($cust)
   {
@@ -78,11 +78,11 @@ function get_cust() {
     if (is_array($cust)) {
       echo "<table><tr>";
       echo "<td><ul>";
-      echo "<li><strong>Customerid:</strong> ";
+      echo "<li><strong>Student Card ID:</strong> ";
       echo htmlspecialchars($cust['customerid']);
       echo "</li><li><strong>Name:</strong> ";
       echo htmlspecialchars($cust['name']);
-      echo "</li><li><strong>Dormitory:</strong> ";
+      echo "</li><li><strong>Delivery Address:</strong> ";
       echo htmlspecialchars($cust['dormitory']);
     //   echo "</li><li><strong>Password:</strong> ";
     //   echo number_format($cust['password'], 2);

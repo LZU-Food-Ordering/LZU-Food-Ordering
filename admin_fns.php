@@ -274,7 +274,7 @@ function delete_cust($detail_array)
   $conn = db_connect();
 
   $query = "delete from customers
-             where name='" . $conn->real_escape_string($detail_array) . "'";
+             where customerid='" . $conn->real_escape_string($detail_array) . "'";
   $result = @$conn->query($query);
   if (!$result) {
     return false;
