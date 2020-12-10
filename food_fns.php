@@ -38,20 +38,6 @@ function get_merchant_name($catid) {
    return $row->catname;
 }
 
-function get_cust_details($custid) {
-  // query database for all details for a customer
-  if ((!$custid) || ($custid=='')) {
-     return false;
-  }
-  $conn = db_connect();
-  $query = "select * from customers where customerid='".$conn->real_escape_string($custid)."'";
-  $result = @$conn->query($query);
-  if (!$result) {
-     return false;
-  }
-  $result = @$result->fetch_assoc();
-  return $result;
-}
 
 function get_foods($catid) {
    // query database for the foods in a merchant
