@@ -253,10 +253,10 @@ height=\"60px\" style=\"border: 1px solid black\"/>";
       <tr>
         <td>Sex:</td>
         <td>
-          <select name="sex" default="<?php echo htmlspecialchars($cust_array['sex']); ?>">
-            <option value ="0">--Please Select--</option>
-            <option value ="1">Male</option>
-            <option value ="2">Female</option>
+          <select name="sex">
+            <option value ="0" <?php if($cust_array['sex']==0) echo "selected"?>>--Please Select--</option>
+            <option value ="1" <?php if($cust_array['sex']==1) echo "selected"?>>Male</option>
+            <option value ="2" <?php if($cust_array['sex']==2) echo "selected"?>>Female</option>
           </select>
         </td>
       </tr>

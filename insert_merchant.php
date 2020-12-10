@@ -7,11 +7,10 @@ session_start();
 do_html_header("Adding a merchant");
 if (check_admin_user()) {
   if (filled_out($_POST))   {
-    $catname = $_POST['catname'];
-    if(insert_merchant($catname)) {
-      echo "<p>merchant \"".htmlspecialchars($catname)."\" was added to the database.</p>";
+    if(insert_merchant($_POST)) {
+      echo "<p>merchant \"".htmlspecialchars($_POST['catname'])."\" was added to the database.</p>";
     } else {
-      echo "<p>merchant \"".htmlspecialchars($catname)."\" could not be added to the database.</p>";
+      echo "<p>merchant \"".htmlspecialchars($_POST['catname'])."\" could not be added to the database.</p>";
     }
   } else {
     echo "<p>You have not filled out the form.  Please try again.</p>";

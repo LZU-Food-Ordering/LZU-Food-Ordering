@@ -7,7 +7,7 @@ session_start();
 do_html_header("Updating merchant");
 if (check_admin_user()) {
   if (filled_out($_POST)) {
-    if(update_merchant($_POST['catid'], $_POST['catname'])) {
+    if(update_merchant($_POST)) {
       echo "<p>merchant was updated.</p>";
     } else {
       echo "<p>merchant could not be updated.</p>";
