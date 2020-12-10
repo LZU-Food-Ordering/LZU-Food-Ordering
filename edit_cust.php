@@ -6,11 +6,11 @@ session_start();
 
 do_html_header("Updating your details");
 if (isset($_SESSION['admin_user'])) {
-  if(isset($_POST['de_name'])){
-    if(delete_cust($_POST['de_name'])) {
-      echo "<p>Your details was deleted.</p>";
+  if(isset($_POST['de_id'])){
+    if(delete_cust($_POST['de_id'])) {
+      echo "<p>The account was deleted.</p>";
     } else {
-      echo "<p>Your details could not be deleted.</p>";
+      echo "<p>The account could not be deleted.</p>";
     }
   }
   else if (isset($_POST)) {

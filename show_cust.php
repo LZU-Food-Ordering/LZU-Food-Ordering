@@ -3,16 +3,18 @@
   // The shopping cart needs sessions, so start one
   session_start();
 
-  $name = $_GET['name'];
+  $customerid = $_GET['customerid'];
 
   // get this food out of database
-  $names = get_cust_details($name);
+  $details = get_cust_details($customerid);
   do_html_header('Customer Management');
-  display_cust_details($names);
-  $conn = db_connect(); 
   // if logged in as admin, show edit customer links
   if(check_admin_user()) {
-    display_button("edit_cust_item_form.php?name=".$conn->real_escape_string($name), "edit-item", "Edit Customer");
+    display_cust_details($details);
+    $conn = db_connect(); 
+    display_button("edit_cust_item_form.php?customerid=".$conn->real_escape_string($customerid), "edit-item", "Edit Customer");
     display_button("admin.php", "admin-menu", "Admin Menu");
-  } 
+  } else {
+    echo "<p>You are not authorized to enter the administration area.</p>";
+  }
   do_html_footer();
