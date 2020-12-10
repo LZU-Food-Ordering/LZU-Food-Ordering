@@ -267,6 +267,22 @@ function update_cust($detail_array)
   }
 }
 
+function delete_cust($detail_array)
+{
+  // change the name of merchant with catid in the database
+
+  $conn = db_connect();
+
+  $query = "delete from customers
+             where name='" . $conn->real_escape_string($detail_array) . "'";
+  $result = @$conn->query($query);
+  if (!$result) {
+    return false;
+  } else {
+    return true;
+  }
+}
+
 function cust_signup($detail_array)
 {
   // change the name of merchant with catid in the database

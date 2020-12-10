@@ -281,8 +281,19 @@ height=\"60px\" style=\"border: 1px solid black\"/>";
       </tr>
     </table>
   </form>
+  <?php if(isset($_SESSION['admin_user'])){
+    ?>
+    <form method="post" action="edit_cust.php">
+    <tr>
+      <td><input type="hidden" name="de_name" value=<?php echo $cust_array['name']?>></td>
+    </tr>
+    <tr>
+      <td><input type="submit" value="Delete" /></td>
+    </tr>
+    </form>
 <?php
   }
+}
 
 function display_cust_signup_form()
   {
