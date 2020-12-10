@@ -5,7 +5,7 @@ require_once('food_sc_fns.php');
 session_start();
 
 do_html_header("Upload your picture");
-if (check_admin_user()) {
+if (check_admin_user()||check_rest_user()) {
     $location="";
     if (isset($_FILES['upfile'])) {
         $location = $_POST['location'];

@@ -25,6 +25,16 @@ function display_merchant_form($merchant = '')
         <td>Restaurant Name:</td>
         <td><input type="text" name="catname" size="40" maxlength="40" value="<?php echo htmlspecialchars($edit ? $merchant['catname'] : ''); ?>" /></td>
       </tr>
+      <?php
+      if(check_admin_user()){
+      ?>
+      <tr>
+        <td>Password:</td>
+        <td><input type="password" name="password" size="40" maxlength="40" value="" /></td>
+      </tr>
+      <?php
+      }
+      ?>
       <tr>
         <td>Phone:</td>
         <td><input type="number" name="phone" size="40" maxlength="40" value="<?php echo htmlspecialchars($edit ? $merchant['phone'] : ''); ?>" /></td>
@@ -33,6 +43,9 @@ function display_merchant_form($merchant = '')
         <td>Address:</td>
         <td><input type="text" name="address" size="40" maxlength="40" value="<?php echo htmlspecialchars($edit ? $merchant['address'] : ''); ?>" /></td>
       </tr>
+      <?php
+      if (check_admin_user()) {
+      ?>
       <tr>
         <td>Recommend:</td>
         <td><select name="recommend">
@@ -40,6 +53,9 @@ function display_merchant_form($merchant = '')
             <option value ="1" <?php if ($edit) if($merchant['recommend']==1) echo "selected"; ?>>Yes</option>
           </select></td>
       </tr>
+      <?php
+      }
+      ?>
       <tr>
         <td <?php if (!$edit) {
               echo "colspan=2";
@@ -91,19 +107,34 @@ function display_food_form($food = '')
   <form method="post" action="<?php echo $edit ? 'edit_food.php' : 'insert_food.php'; ?>">
     <table border="0">
       <tr>
-        <td>foodid:</td>
-        <td><input type="text" name="foodid" value="<?php echo htmlspecialchars($edit ? $food['foodid'] : ''); ?>" /></td>
-      </tr>
-      <tr>
-        <td>food Title:</td>
+        <td>Name:</td>
+        <?php
+          if($edit){
+        ?>
+        <input type="hidden" name="foodid" value="<?php echo htmlspecialchars($food['foodid']); ?>" />
+        <?php 
+          }
+        ?>
         <td><input type="text" name="title" value="<?php echo htmlspecialchars($edit ? $food['title'] : ''); ?>" /></td>
       </tr>
       <tr>
-        <td>food Author:</td>
-        <td><input type="text" name="author" value="<?php echo htmlspecialchars($edit ? $food['author'] : ''); ?>" /></td>
+        <td>Stock:</td>
+        <td><input type="number" name="stock" value="<?php echo htmlspecialchars($edit ? $food['stock'] : ''); ?>" /></td>
       </tr>
       <tr>
-        <td>merchant:</td>
+        <td>Status:</td>
+        <td>
+          <select name="status">
+            <option value ="0" <?php if($edit) if($food['status']==0) echo "selected"?>>Unavailable</option>
+            <option value ="1" <?php if($edit) if($food['status']==1) echo "selected"?>>Available</option>
+          </select>
+        </td>
+      </tr>
+      <?php
+        if (check_admin_user()){
+        ?>
+      <tr>
+        <td>Restaurant:</td>
         <td><select name="catid">
             <?php
             // list of possible merchants comes from database
@@ -120,9 +151,17 @@ function display_food_form($food = '')
           </select>
         </td>
       </tr>
+      <?php
+        } else {
+          $conn = db_connect();
+          $query="select catid from merchants where catname='".$_SESSION['rest_user']."'";
+          $catid=$conn->query($query)->fetch_object()->catid;
+          echo "<input type=\"hidden\" name=\"catid\" value=". htmlspecialchars($catid).">";
+        }
+      ?>
       <tr>
         <td>Price:</td>
-        <td><input type="text" name="price" value="<?php echo htmlspecialchars($edit ? $food['price'] : ''); ?>" /></td>
+        <td><input type="number" name="price" value="<?php echo htmlspecialchars($edit ? $food['price'] : ''); ?>" /></td>
       </tr>
       <tr>
         <td>Description:</td>
@@ -246,12 +285,13 @@ function insert_merchant($cat_array)
   }
 
   // insert new merchant
-  $query = "INSERT INTO `merchants`(`catid`, `catname`, `phone`, `address`, `recommend`) 
+  $query = "INSERT INTO `merchants`(`catid`, `catname`, `phone`, `address`, `recommend`, `password`) 
             VALUES (NULL,
                     '" . $conn->real_escape_string($cat_array['catname']) . "',
                     '" . $conn->real_escape_string($cat_array['phone']) . "',
                     '" . $conn->real_escape_string($cat_array['address']) . "',
-                    " . $conn->real_escape_string($cat_array['recommend']) . ")";
+                    " . $conn->real_escape_string($cat_array['recommend']) . ",
+                    sha1('" . $conn->real_escape_string($cat_array['password']) . "'))";
   $result = $conn->query($query);
   if (!$result) {
     return false;
@@ -260,25 +300,17 @@ function insert_merchant($cat_array)
   }
 }
 
-function insert_food($foodid, $title, $author, $catid, $price, $description)
+function insert_food($food_array)
 {
   // insert a new food into the database
 
   $conn = db_connect();
-  // check food does not already exist
-  $query = "select *
-             from foods
-             where foodid='" . $conn->real_escape_string($foodid) . "'";
-  $result = $conn->query($query);
-  if ((!$result) || ($result->num_rows != 0)) {
-    return false;
-  }
 
   // insert new food
   $query = "insert into foods values
-            ('" . $conn->real_escape_string($foodid) . "', '" . $conn->real_escape_string($author) .
-    "', '" . $conn->real_escape_string($title) . "', '" . $conn->real_escape_string($catid) .
-    "', '" . $conn->real_escape_string($price) . "', '" . $conn->real_escape_string($description) . "')";
+            (NULL, '" . $conn->real_escape_string($food_array['title']) . "', " . $conn->real_escape_string($food_array['catid']) .
+    ", " . $conn->real_escape_string($food_array['price']) . ", " . $conn->real_escape_string($food_array['stock']) .
+    ", " . $conn->real_escape_string($food_array['status']) . ", '" . $conn->real_escape_string($food_array['description']) . "', '" . $conn->real_escape_string($food_array['rest']) . "')";
 
   $result = $conn->query($query);
   if (!$result) {
@@ -293,12 +325,15 @@ function update_merchant($cat_array)
   // change the name of merchant with catid in the database
 
   $conn = db_connect();
-
+  $k = "";
+  if (check_admin_user()) {
+    $k = ",password=sha1('" . $conn->real_escape_string($cat_array['password'])."'), recommend=" . $conn->real_escape_string($cat_array['recommend']);
+  }
   $query = "update merchants
              set catname='" . $conn->real_escape_string($cat_array['catname']) . "',
-                 phone='" . $conn->real_escape_string($cat_array['catname']) . "',
-                 address='" . $conn->real_escape_string($cat_array['catname']) . "',
-                 recommend=" . $conn->real_escape_string($cat_array['recommend']) . "
+                 phone='" . $conn->real_escape_string($cat_array['phone']) . "',
+                 address='" . $conn->real_escape_string($cat_array['address']) . "'
+                 $k
              where catid='" . $conn->real_escape_string($cat_array['catid']) . "'";
   $result = @$conn->query($query);
   if (!$result) {
@@ -372,28 +407,21 @@ function cust_signup($detail_array)
   }
 }
 
-function update_food(
-  $oldfoodid,
-  $foodid,
-  $title,
-  $author,
-  $catid,
-  $price,
-  $description
-) {
+function update_food($food_array) {
   // change details of food stored under $oldfoodid in
   // the database to new details in arguments
 
   $conn = db_connect();
 
   $query = "update foods
-             set foodid= '" . $conn->real_escape_string($foodid) . "',
-             title = '" . $conn->real_escape_string($title) . "',
-             author = '" . $conn->real_escape_string($author) . "',
-             catid = '" . $conn->real_escape_string($catid) . "',
-             price = '" . $conn->real_escape_string($price) . "',
-             description = '" . $conn->real_escape_string($description) . "'
-             where foodid = '" . $conn->real_escape_string($oldfoodid) . "'";
+             set title = '" . $conn->real_escape_string($food_array['title']) . "',
+             rest = '" . $conn->real_escape_string($food_array['rest']) . "',
+             catid = " . $conn->real_escape_string($food_array['catid']) . ",
+             price = " . $conn->real_escape_string($food_array['price']) . ",
+             stock = " . $conn->real_escape_string($food_array['stock']) . ",
+             status = " . $conn->real_escape_string($food_array['status']) . ",
+             description = '" . $conn->real_escape_string($food_array['description']) . "'
+             where foodid = " . $conn->real_escape_string($food_array['foodid']);
 
   $result = @$conn->query($query);
   if (!$result) {

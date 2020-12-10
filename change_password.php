@@ -5,7 +5,7 @@ do_html_header('Changing password');
 if (!filled_out($_POST)) {
    echo "<p>You have not filled out the form completely.<br/>
          Please try again.</p>";
-   if (check_admin_user()) {
+   if (check_admin_user()||check_rest_user()) {
       do_html_url("admin.php", "Back to administration menu");
    } else {
       do_html_url("index.php", "Back to home page");
@@ -28,6 +28,12 @@ if (!filled_out($_POST)) {
          } else {
             echo "<p>Password could not be changed.</p>";
          }
+      } else if (check_rest_user()){
+         if (change_password($_SESSION['rest_user'], $old_passwd, $new_passwd, 'merchants')) {
+            echo "<p>Password changed.</p>";
+         } else {
+            echo "<p>Password could not be changed.</p>";
+         }
       } else if (check_cust_user()) {
          if (change_password($_SESSION['cust_user'], $old_passwd, $new_passwd, 'customers')) {
             echo "<p>Password changed.</p>";
@@ -39,7 +45,7 @@ if (!filled_out($_POST)) {
       }
    }
 }
-if (check_admin_user()) {
+if (check_admin_user()||check_rest_user()) {
    do_html_url("admin.php", "Back to administration menu");
 } else {
    do_html_url("index.php", "Back to home page");

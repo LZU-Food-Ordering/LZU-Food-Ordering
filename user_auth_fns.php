@@ -115,8 +115,10 @@ function change_password($username, $old_password, $new_password, $kind) {
   // else return false
   if($kind=="customers")
     $checkr = login_cust($username, $old_password);
+  else if($kind=="merchants")
+    $checkr = login($username, $old_password,"rest");
   else
-    $checkr = login($username, $old_password);
+    $checkr = login($username, $old_password,"admin");
   if ($checkr) {
 
     if (!($conn = db_connect())) {
@@ -126,6 +128,8 @@ function change_password($username, $old_password, $new_password, $kind) {
     $idname = "username";
     if($kind=="customers")
       $idname = "customerid";
+    else if($kind=="merchants")
+      $idname = "catname";
 
     $result = $conn->query("update $kind
                             set password = sha1('". $conn->real_escape_string($new_password)."')
