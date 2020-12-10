@@ -4,7 +4,7 @@
 require_once('food_sc_fns.php');
 session_start();
 
-do_html_header("Update a Resaurant");
+do_html_header("Update a Restaurant");
 if (check_admin_user()) {
   if(isset($_GET['catid'])){
     if ($catname = get_merchant_name($_GET['catid'])) {
@@ -27,11 +27,10 @@ if (check_admin_user()) {
   do_html_url("admin.php", "Back to administration menu");
 } 
 else if(check_rest_user()){
-    $catname = get_merchant_name($_SESSION['rest_user']);
     $conn = db_connect();
-    $query="select catid from merchants where catname='". $conn->real_escape_string($catname);
-    $catid=$conn->query($query);
-    $cat = compact('catname', 'catid');
+    $query="select catid from merchants where catname='".$_SESSION['rest_user']."'";
+    $catid=$conn->query($query)->fetch_object()->catid;
+    $cat = get_merchant_details($catid);
     display_merchant_form($cat);
   
 }

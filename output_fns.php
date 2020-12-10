@@ -71,7 +71,7 @@ function do_html_header($title = '')
         </td>
         <td align="right" rowspan="2" width="135">
           <?php
-          if (isset($_SESSION['admin_user'])) {
+          if (isset($_SESSION['admin_user'])||isset($_SESSION['rest_user'])) {
             display_button('logout.php', 'log-out', 'Log Out');
           } else if (isset($_SESSION['cust_user'])) {
             display_button('logout_cust.php', 'log-out', 'Log Out');
@@ -326,7 +326,7 @@ function display_cust_signup_form()
       <tr>
         <td>Sex:</td>
         <td>
-          <select name="sex" default="0">
+          <select name="sex">
             <option value ="0">--Please Select--</option>
             <option value ="1">Male</option>
             <option value ="2">Female</option>
@@ -645,8 +645,10 @@ function display_cust_signup_form()
         <td><input type="password" name="passwd" /></td>
       </tr>
       <tr>
-      <td>administrator<input type="radio" name="category" value="admin"/></td>
-      <td>Restaurant<input type="radio" name="category" value="rest"/></td>
+      <td><input type="radio" name="category" value="admin"/> Administrator</td>
+      </tr>
+      <tr>
+      <td><input type="radio" name="category" value="rest" checked/> Restaurant</td>
       </tr>
       <tr>
         <td colspan="2" align="center">
@@ -687,11 +689,14 @@ function display_cust_signup_form()
 ?>
   <br />
   <a href="index.php">Go to main site</a><br />
+  <h3>Restaurant Management:</h3>
   <a href="insert_merchant_form.php">Add a new Restaurant</a><br />
   <a href="edit_merchant_form.php">Update a Restaurant</a><br />
   <a href="delete_merchant_form.php">Delete a Restaurant</a><br />
-  <a href="cust_manage_form.php">Customer Management</a><br />
+  <a href="cust_manage_form.php"><h3>Customer Management</h3></a>
+  <h3>Food Management:</h3>
   <a href="insert_food_form.php">Add a new food</a><br />
+  <a href="index.php">Update, Delete food</a><br /><br />
   <a href="change_password_form.php">Change admin password</a><br />
 <?php
   }
@@ -701,8 +706,18 @@ function display_cust_signup_form()
 ?>
   <br />
   <a href="index.php">Go to main site</a><br />
-  <a href="edit_merchant_form.php">Update a Restaurant</a><br />
+  <a href="edit_merchant_form.php">Edit your information</a><br />
+  <h3>Food Management:</h3>
   <a href="insert_food_form.php">Add a new food</a><br />
+  <?php
+    $conn = db_connect();
+    $query="select catid from merchants where catname='".$_SESSION['rest_user']."'";
+    $catid=$conn->query($query)->fetch_object()->catid;
+  ?>
+  <a href="show_cat.php?catid=<?php echo $catid; ?>">Update, Delete food</a><br /><br />
+  <h3>Order Management:</h3>
+  To do!(New orders, handle orders)<br /><br />
+  <a href="change_password_form.php">Change your password</a><br />
 <?php
   }
 

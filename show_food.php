@@ -21,6 +21,14 @@
     display_button("edit_food_form.php?foodid=". urlencode($foodid), "edit-item", "Edit Item");
     display_button("admin.php", "admin-menu", "Admin Menu");
     display_button($target, "continue", "Continue");
+  } else if(check_rest_user()){
+    $conn = db_connect();
+    $query="select catid from merchants where catname='".$_SESSION['rest_user']."'";
+    $catid=$conn->query($query)->fetch_object()->catid;
+    if($food['catid']==$catid)
+      display_button("edit_food_form.php?foodid=". urlencode($foodid), "edit-item", "Edit Item");
+    display_button("admin.php", "admin-menu", "Admin Menu");
+    display_button($target, "continue", "Continue");
   } else {
     display_button("show_cart.php?new=". urlencode($foodid), "add-to-cart",
                    "Add ". htmlspecialchars($food['title']) ." To My Shopping Cart");
