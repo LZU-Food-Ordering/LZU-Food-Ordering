@@ -26,6 +26,21 @@ function display_merchant_form($merchant = '')
         <td><input type="text" name="catname" size="40" maxlength="40" value="<?php echo htmlspecialchars($edit ? $merchant['catname'] : ''); ?>" /></td>
       </tr>
       <tr>
+        <td>Phone:</td>
+        <td><input type="number" name="phone" size="40" maxlength="40" value="<?php echo htmlspecialchars($edit ? $merchant['phone'] : ''); ?>" /></td>
+      </tr>
+      <tr>
+        <td>Address:</td>
+        <td><input type="text" name="address" size="40" maxlength="40" value="<?php echo htmlspecialchars($edit ? $merchant['address'] : ''); ?>" /></td>
+      </tr>
+      <tr>
+        <td>Recommend:</td>
+        <td><select name="recommend">
+            <option value ="0" <?php if ($edit) if($merchant['recommend']==0) echo "selected"; ?>>No</option>
+            <option value ="1" <?php if ($edit) if($merchant['recommend']==1) echo "selected"; ?>>Yes</option>
+          </select></td>
+      </tr>
+      <tr>
         <td <?php if (!$edit) {
               echo "colspan=2";
             } ?> align="center">
@@ -172,7 +187,7 @@ function display_password_form()
   <?php
 }
 
-function insert_merchant($catname)
+function insert_merchant($cat_array)
 {
   // inserts a new merchant into the database
 
@@ -181,16 +196,19 @@ function insert_merchant($catname)
   // check merchant does not already exist
   $query = "select *
              from merchants
-             where catname='" . $conn->real_escape_string($catname) . "'";
+             where catname='" . $conn->real_escape_string($cat_array['catname']) . "'";
   $result = $conn->query($query);
   if ((!$result) || ($result->num_rows != 0)) {
     return false;
   }
 
   // insert new merchant
-  $query = "INSERT INTO `merchants`(`catname`) VALUES
-            ('" . $conn->real_escape_string($catname) . "')";
-  print_r($query);
+  $query = "INSERT INTO `merchants`(`catid`, `catname`, `phone`, `address`, `recommend`) 
+            VALUES (NULL,
+                    '" . $conn->real_escape_string($cat_array['catname']) . "',
+                    '" . $conn->real_escape_string($cat_array['phone']) . "',
+                    '" . $conn->real_escape_string($cat_array['address']) . "',
+                    " . $conn->real_escape_string($cat_array['recommend']) . ")";
   $result = $conn->query($query);
   if (!$result) {
     return false;
@@ -227,15 +245,18 @@ function insert_food($foodid, $title, $author, $catid, $price, $description)
   }
 }
 
-function update_merchant($catid, $catname)
+function update_merchant($cat_array)
 {
   // change the name of merchant with catid in the database
 
   $conn = db_connect();
 
   $query = "update merchants
-             set catname='" . $conn->real_escape_string($catname) . "'
-             where catid='" . $conn->real_escape_string($catid) . "'";
+             set catname='" . $conn->real_escape_string($cat_array['catname']) . "',
+                 phone='" . $conn->real_escape_string($cat_array['catname']) . "',
+                 address='" . $conn->real_escape_string($cat_array['catname']) . "',
+                 recommend=" . $conn->real_escape_string($cat_array['recommend']) . "
+             where catid='" . $conn->real_escape_string($cat_array['catid']) . "'";
   $result = @$conn->query($query);
   if (!$result) {
     return false;

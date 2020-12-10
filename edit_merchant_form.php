@@ -9,7 +9,7 @@ if (check_admin_user()) {
   if(isset($_GET['catid'])){
     if ($catname = get_merchant_name($_GET['catid'])) {
       $catid = $_GET['catid'];
-      $cat = compact('catname', 'catid');
+      $cat = get_merchant_details($catid);
       display_merchant_form($cat);
     } else {
       echo "<p>Could not retrieve merchant details.</p>";
