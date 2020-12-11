@@ -61,6 +61,7 @@ function do_html_header($title = '')
           <?php
           if (isset($_SESSION['cust_user'])) {
             display_button('edit_cust_form.php', 'edit-cust', 'Update Details');
+            display_button('cust_show_order.php', 'view-orders', 'View Your Orders');
           }
           if (isset($_SESSION['admin_user'])) {
             echo "&nbsp;";
@@ -413,7 +414,7 @@ function display_cust_signup_form()
       }
       echo "<td><ul>";
       echo "<li><strong>Name:</strong> ";
-      echo htmlspecialchars($food['rest']);
+      echo htmlspecialchars($food['title']);
       echo "</li><li><strong>Stock:</strong> ";
       echo htmlspecialchars($food['stock']);
       echo "</li><li><strong>Provided by:</strong> ";
@@ -490,8 +491,7 @@ function display_cust_signup_form()
       <tr>
         <td colspan="2" align="center">
           <input type="hidden" name="orderid" value="<?php echo $orderid;?>">
-          <p><strong>Please press Purchase to confirm your purchase, or Continue Shopping to
-              add or remove items</strong></p>
+          <p><strong>Please press Purchase to confirm your purchase.</strong></p>
           <?php display_form_button('purchase', 'Purchase These Items'); ?>
         </td>
       </tr>
@@ -659,9 +659,8 @@ function display_cust_signup_form()
     $query="select catid from merchants where catname='".$_SESSION['rest_user']."'";
     $catid=$conn->query($query)->fetch_object()->catid;
   ?>
-  <a href="show_cat.php?catid=<?php echo $catid; ?>">Update, Delete food</a><br /><br />
-  <h3>Order Management:</h3>
-  To do!(New orders, handle orders)<br /><br />
+  <a href="show_cat.php?catid=<?php echo $catid; ?>">Update, Delete food</a><br />
+  <a href="show_order.php?catid=<?php echo $catid; ?>"><h3>Order Management</h3></a>
   <a href="change_password_form.php">Change your password</a><br />
 <?php
   }

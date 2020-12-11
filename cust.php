@@ -11,6 +11,11 @@ if(isset($_POST['customerid'])&& isset($_POST['passwd'])){
     $passwd = $_POST['passwd'];
 
     if (login_cust($customerid, $passwd)) {
+      if(check_admin_user()){
+        unset($_SESSION['admin_user']);
+      } else if(check_rest_user()){
+        unset($_SESSION['rest_user']);
+      }
       // if they are in the database register the user id
       $_SESSION['cust_user'] = $customerid;
 
