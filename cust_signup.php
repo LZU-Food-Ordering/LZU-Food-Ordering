@@ -10,7 +10,7 @@ if (isset($_SESSION['cust_user'])) {
   do_html_url("index.php", "Back to Home Page");
 } else {
   if (isset($_POST)) {
-    if(cust_signup($_POST)) {
+    if (cust_signup($_POST)) {
       echo "<p>You have created an account.</p>";
     } else {
       echo "<p>Your account could not be created.</p>";

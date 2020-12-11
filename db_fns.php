@@ -1,6 +1,7 @@
 <?php
 
-function db_connect() {
+function db_connect()
+{
    $result = new mysqli('localhost', 'root', '', 'food_sc');
    if (!$result) {
       return false;
@@ -9,11 +10,12 @@ function db_connect() {
    return $result;
 }
 
-function db_result_to_array($result) {
+function db_result_to_array($result)
+{
    $res_array = array();
 
-   for ($count=0; $row = $result->fetch_assoc(); $count++) {
-     $res_array[$count] = $row;
+   for ($count = 0; $row = $result->fetch_assoc(); $count++) {
+      $res_array[$count] = $row;
    }
 
    return $res_array;
