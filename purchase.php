@@ -14,14 +14,13 @@
   // if filled out
   if (isset($_SESSION['cart']) && ($name) && ($dormitory) && ($customerid)) {
     // able to insert into database
-    if(insert_order($_POST) != false ) {
+    $orderid = insert_order($_POST);
+    if($orderid != false ) {
       //display cart, not allowing changes and without pictures
       display_cart($_SESSION['cart'], false, 0);
 
-      display_shipping(calculate_shipping_cost());
-
-      //get credit card details
-      display_card_form($name);
+      //get pay details
+      display_pay_form($orderid);
 
       display_button("show_cart.php", "continue-shopping", "Continue Shopping");
     } else {

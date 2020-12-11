@@ -1,9 +1,16 @@
 <?php
-function calculate_shipping_cost()
+
+function get_stock($foodid)
 {
-  // as we are shipping products all over the world
-  // via teleportation, shipping is fixed
-  return 20.00;
+  $conn = db_connect();
+  $query = "select stock from foods
+  where foodid=". $foodid;
+  $result = $conn->query($query);
+  if(!$result) {
+  return false;
+  }
+  $stock = $result->fetch_object()->stock;
+  return $stock;
 }
 
 function get_merchants()

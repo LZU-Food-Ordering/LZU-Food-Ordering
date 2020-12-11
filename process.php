@@ -5,22 +5,17 @@
 
   do_html_header('Checkout');
 
-  $card_type = $_POST['card_type'];
-  $card_number = $_POST['card_number'];
-  $card_month = $_POST['card_month'];
-  $card_year = $_POST['card_year'];
-  $card_name = $_POST['card_name'];
+  $pay_type = $_POST['pay_type'];
+  $orderid = $_POST['orderid'];
 
-  if(isset($_SESSION['cart']) && ($card_type) && ($card_number) &&
-     ($card_month) && ($card_year) && ($card_name)) {
+  if(isset($_SESSION['cart']) && ($pay_type)) {
     //display cart, not allowing changes and without pictures
     display_cart($_SESSION['cart'], false, 0);
-
-    display_shipping(calculate_shipping_cost());
-
-    if(process_card($_POST)) {
-      //empty shopping cart
-      session_destroy();
+    unset($_SESSION['cart']);
+    unset($_SESSION['total_price']);
+    unset($_SESSION['items']);
+    if(process_payment($_POST)) {
+      update_order_status($orderid, "PAID");
       echo "<p>Thank you for shopping with us. Your order has been placed.</p>";
       display_button("index.php", "continue-shopping", "Continue Shopping");
     } else {

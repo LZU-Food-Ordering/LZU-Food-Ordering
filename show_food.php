@@ -27,7 +27,7 @@
     if($food['catid']==$catid)
       display_button("edit_food_form.php?foodid=". urlencode($foodid), "edit-item", "Edit Item");
     display_button("admin.php", "admin-menu", "Admin Menu");
-  } else if(check_cust_user()){
+  } else if(check_cust_user()&&$food['status']==1){
     display_button("show_cart.php?new=". urlencode($foodid), "add-to-cart",
                    "Add ". htmlspecialchars($food['title']) ." To My Shopping Cart");
   }
