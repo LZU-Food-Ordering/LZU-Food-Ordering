@@ -1,5 +1,5 @@
 <?php
-function process_card($card_details) {
+function process_payment($pay_details) {
   // connect to payment gateway or
   // use gpg to encrypt and mail or
   // store in DB if you really want to
@@ -31,15 +31,7 @@ function insert_order($order_details) {
     // $customer = $result->fetch_object();
     // $customerid = $customer->customerid;
   } else {
-    $query = "insert into customers values
-            (' " . $conn->real_escape_string($customerid) .
-            "','". $conn->real_escape_string($name) ."','". $conn->real_escape_string($dormitory)."')";
-            print_r($query);
-    $result = $conn->query($query);
-
-    if (!$result) {
-       return false;
-    }
+    return false;
   }
 
   $date = date("Y-m-d");
@@ -86,6 +78,35 @@ function insert_order($order_details) {
     if(!$result) {
       return false;
     }
+    $query = "select stock,status,title,rest from foods
+              where foodid=". $foodid;
+    $result = $conn->query($query);
+    if(!$result) {
+      return false;
+    }
+    $obj = $result->fetch_object();
+    $stock = $obj->stock;
+    $foodtitle = $obj->title;
+    $foodrest = $obj->rest;
+    $foodstatus = $obj->status;
+    if(($stock - $quantity)<0||$foodstatus==0){
+      echo "Food ".$foodtitle." by ".$foodrest." has become unavailable!";
+      return false;
+    }
+    $query = "update foods set stock=". ($stock - $quantity). "
+              where foodid=". $foodid;
+    $result = $conn->query($query);
+    if(!$result) {
+      return false;
+    }
+    if(($stock - $quantity)==0){
+      $query = "update foods set status=0
+               where foodid=". $foodid;
+      $result = $conn->query($query);
+      if(!$result) {
+        return false;
+      }
+    }
   }
 
   // end transaction
@@ -93,4 +114,20 @@ function insert_order($order_details) {
   $conn->autocommit(TRUE);
 
   return $orderid;
+}
+
+function update_order_status($orderid, $status)
+{
+  // change the status of order with orderid in the database
+
+  $conn = db_connect();
+  $query = "update orders
+             set order_status='" . $conn->real_escape_string($status) . "'
+             where orderid=" . $conn->real_escape_string($orderid);
+  $result = @$conn->query($query);
+  if (!$result) {
+    return false;
+  } else {
+    return true;
+  }
 }

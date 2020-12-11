@@ -266,15 +266,15 @@ height=\"60px\" style=\"border: 1px solid black\"/>";
       </tr>
       <tr>
         <td>Age:</td>
-        <td><input type="number" name="age" value="<?php echo htmlspecialchars($cust_array['age']); ?>" /></td>
+        <td><input type="number" name="age" min="0" max="200" value="<?php echo htmlspecialchars($cust_array['age']); ?>" /></td>
       </tr>
       <tr>
         <td>Phone:</td>
-        <td><input type="number" required="true" name="phone" value="<?php echo htmlspecialchars($cust_array['phone']); ?>" /></td>
+        <td><input type="number" required="true" min="10000000000" max="999999999999" name="phone" value="<?php echo htmlspecialchars($cust_array['phone']); ?>" /></td>
       </tr>
       <tr>
         <td>QQ:</td>
-        <td><input type="number" name="qq" value="<?php echo htmlspecialchars($cust_array['qq']); ?>" /></td>
+        <td><input type="number" name="qq" min="100" max="9999999999999" value="<?php echo htmlspecialchars($cust_array['qq']); ?>" /></td>
       </tr>
       <tr>
         <td>Email:</td>
@@ -335,15 +335,15 @@ function display_cust_signup_form()
       </tr>
       <tr>
         <td>Age:</td>
-        <td><input type="number" name="age" value="" /></td>
+        <td><input type="number" min="0" max="200" name="age" value="" /></td>
       </tr>
       <tr>
         <td>Phone:</td>
-        <td><input type="number" required="true" name="phone" value="" /></td>
+        <td><input type="number" min="10000000000" max="999999999999" required="true" name="phone" value="" /></td>
       </tr>
       <tr>
         <td>QQ:</td>
-        <td><input type="number" name="qq" value="" /></td>
+        <td><input type="number" min="100" max="9999999999999" name="qq" value="" /></td>
       </tr>
       <tr>
         <td>Email:</td>
@@ -435,7 +435,7 @@ function display_cust_signup_form()
     echo "<hr />";
   }
 
-  function display_checkout_form()
+  function display_checkout_form($cust_details)
   {
     //display the form that asks for name and address
 ?>
@@ -447,15 +447,15 @@ function display_cust_signup_form()
       </tr>
       <tr>
         <td align=center> Name</td>
-        <td><input type="text" name="name" value="" maxlength="40" size="40" /></td>
+        <td><input type="text" name="name" value="<?php echo $cust_details['name'];?>" maxlength="40" size="40" /></td>
       </tr>
       <tr>
         <td align=center>Student Card</td>
-        <td><input type="text" name="customerid" value="" maxlength="40" size="40" /></td>
+        <td><input type="text" name="customerid" value="<?php echo $cust_details['customerid'];?>" maxlength="40" size="40" /></td>
       </tr>
       <tr>
         <td align=center>dormitory</td>
-        <td><input type="text" name="dormitory" value="" maxlength="20" size="40" /></td>
+        <td><input type="text" name="dormitory" value="<?php echo $cust_details['dormitory'];?>" maxlength="20" size="40" /></td>
       </tr>
 
       <td colspan="2" align="center">
@@ -470,81 +470,26 @@ function display_cust_signup_form()
 <?php
   }
 
-  function display_shipping($shipping)
-  {
-    // display table row with shipping cost and total price including shipping
-?>
-  <table border="0" width="100%" cellspacing="0">
-    <tr>
-      <td align="left">Shipping</td>
-      <td align="right"> <?php echo number_format($shipping, 2); ?></td>
-    </tr>
-    <tr>
-      <th bgcolor="#cccccc" align="left">TOTAL INCLUDING SHIPPING</th>
-      <th bgcolor="#cccccc" align="right">$ <?php echo number_format($shipping + $_SESSION['total_price'], 2); ?></th>
-    </tr>
-  </table><br />
-<?php
-  }
-
-  function display_card_form($name)
+  function display_pay_form($orderid)
   {
     //display form asking for credit card details
 ?>
   <table border="0" width="100%" cellspacing="0">
     <form action="process.php" method="post">
       <tr>
-        <th colspan="2" bgcolor="#cccccc">Credit Card Details</th>
+        <th colspan="2" bgcolor="#cccccc">Payment Details</th>
       </tr>
       <tr>
         <td>Type</td>
-        <td><select name="card_type">
-            <option value="VISA">VISA</option>
-            <option value="MasterCard">MasterCard</option>
-            <option value="American Express">American Express</option>
+        <td><select name="pay_type">
+            <option value="Wechat Pay">Wechat Pay</option>
+            <option value="Alipay">Alipay</option>
           </select>
         </td>
       </tr>
       <tr>
-        <td>Number</td>
-        <td><input type="text" name="card_number" value="" maxlength="16" size="40"></td>
-      </tr>
-      <tr>
-        <td>AMEX code (if required)</td>
-        <td><input type="text" name="amex_code" value="" maxlength="4" size="4"></td>
-      </tr>
-      <tr>
-        <td>Expiry Date</td>
-        <td>Month
-          <select name="card_month">
-            <option value="01">01</option>
-            <option value="02">02</option>
-            <option value="03">03</option>
-            <option value="04">04</option>
-            <option value="05">05</option>
-            <option value="06">06</option>
-            <option value="07">07</option>
-            <option value="08">08</option>
-            <option value="09">09</option>
-            <option value="10">10</option>
-            <option value="11">11</option>
-            <option value="12">12</option>
-          </select>
-          Year
-          <select name="card_year">
-            <?php
-            for ($y = date("Y"); $y < date("Y") + 10; $y++) {
-              echo "<option value=\"" . $y . "\">" . $y . "</option>";
-            }
-            ?>
-          </select>
-      </tr>
-      <tr>
-        <td>Name on Card</td>
-        <td><input type="text" name="card_name" value="<?php echo $name; ?>" maxlength="40" size="40"></td>
-      </tr>
-      <tr>
         <td colspan="2" align="center">
+          <input type="hidden" name="orderid" value="<?php echo $orderid;?>">
           <p><strong>Please press Purchase to confirm your purchase, or Continue Shopping to
               add or remove items</strong></p>
           <?php display_form_button('purchase', 'Purchase These Items'); ?>
@@ -599,7 +544,7 @@ function display_cust_signup_form()
 
       // if we allow changes, quantities are in text boxes
       if ($change == true) {
-        echo "<input type=\"text\" name=\"" . htmlspecialchars($foodid) . "\" value=\"" . htmlspecialchars($qty) . "\" size=\"3\">";
+        echo "<input type=\"number\" name=\"" . htmlspecialchars($foodid) . "\" value=\"" . htmlspecialchars($qty) . "\" min=0 max=\"" . htmlspecialchars(get_stock($food['foodid'])) . "\" size=\"3\">";
       } else {
         echo $qty;
       }
@@ -619,14 +564,14 @@ function display_cust_signup_form()
           <td colspan=\"" . (2) . "\">&nbsp;</td>
           
           <td>&nbsp;</td>
-          </tr>";
+          </tr></table>
+          <div align=\"right\">
+          <input type=\"hidden\" name=\"save\" value=\"true\"/>
+          <input type=\"image\" src=\"images/save-changes.gif\"
+          border=\"0\" alt=\"Save Changes\"/>
+          </div>";
     }
-    echo "</form></table>";
-    echo "<div align=\"right\">
-        <input type=\"hidden\" name=\"save\" value=\"true\"/>
-        <input type=\"image\" src=\"images/save-changes.gif\"
-        border=\"0\" alt=\"Save Changes\"/>
-        </div>";
+    echo "</form>";
   }
 
 
@@ -668,7 +613,7 @@ function display_cust_signup_form()
     <table bgcolor="#cccccc">
       <tr>
         <td>Student Card ID:</td>
-        <td><input type="number" name="customerid" /></td>
+        <td><input type="number" min="1" max="999999999999" name="customerid" /></td>
       </tr>
       <tr>
         <td>Password:</td>

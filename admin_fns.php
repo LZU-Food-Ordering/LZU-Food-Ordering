@@ -119,7 +119,7 @@ function display_food_form($food = '')
       </tr>
       <tr>
         <td>Stock:</td>
-        <td><input type="number" name="stock" value="<?php echo htmlspecialchars($edit ? $food['stock'] : ''); ?>" /></td>
+        <td><input type="number" name="stock" min=0 value="<?php echo htmlspecialchars($edit ? $food['stock'] : ''); ?>" /></td>
       </tr>
       <tr>
         <td>Status:</td>
@@ -161,7 +161,7 @@ function display_food_form($food = '')
       ?>
       <tr>
         <td>Price:</td>
-        <td><input type="number" name="price" value="<?php echo htmlspecialchars($edit ? $food['price'] : ''); ?>" /></td>
+        <td><input type="number" name="price" min=0 value="<?php echo htmlspecialchars($edit ? $food['price'] : ''); ?>" /></td>
       </tr>
       <tr>
         <td>Description:</td>

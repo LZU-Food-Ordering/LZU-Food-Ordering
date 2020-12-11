@@ -31,7 +31,6 @@
         $_SESSION['cart'][$foodid] = $_POST[$foodid];
       }
     }
-
     $_SESSION['total_price'] = calculate_price($_SESSION['cart']);
     $_SESSION['items'] = calculate_items($_SESSION['cart']);
   }
