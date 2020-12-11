@@ -20,7 +20,7 @@ function do_html_header($title = '')
       h2 {
         font-family: Arial, Helvetica, sans-serif;
         font-size: 22px;
-        color: red;
+        color: orange;
         margin: 6px
       }
 
@@ -36,13 +36,13 @@ function do_html_header($title = '')
       }
 
       hr {
-        color: #FF0000;
+        color: #BE4D30;
         width: 70%;
         text-align: center
       }
 
       a {
-        color: #000000
+        color: #C4A93C
       }
 
       #user_logo {
@@ -52,7 +52,7 @@ function do_html_header($title = '')
   </head>
 
   <body>
-    <table width="100%" border="0" cellspacing="0" bgcolor="#cccccc">
+    <table width="100%" border="0" cellspacing="0" bgcolor="#E7AEA0">
       <tr>
         <td rowspan="2">
           <a href="index.php"><img src="images/LZU-food-ordering.jpg" alt="foodorama" border="0" align="left" valign="bottom" height="55" width="325" /></a>
@@ -72,7 +72,7 @@ function do_html_header($title = '')
         </td>
         <td align="right" rowspan="2" width="135">
           <?php
-          if (isset($_SESSION['admin_user'])||isset($_SESSION['rest_user'])) {
+          if (isset($_SESSION['admin_user']) || isset($_SESSION['rest_user'])) {
             display_button('logout.php', 'log-out', 'Log Out');
           } else if (isset($_SESSION['cust_user'])) {
             display_button('logout_cust.php', 'log-out', 'Log Out');
@@ -245,7 +245,7 @@ height=\"60px\" style=\"border: 1px solid black\"/>";
       <tr>
         <td>Student Card ID:</td>
         <td><input type="text" name="customerid" hidden="true" value="<?php echo htmlspecialchars($cust_array['customerid']); ?>" />
-        <?php echo htmlspecialchars($cust_array['customerid']); ?></td>
+          <?php echo htmlspecialchars($cust_array['customerid']); ?></td>
       </tr>
       <tr>
         <td>Name:</td>
@@ -259,9 +259,9 @@ height=\"60px\" style=\"border: 1px solid black\"/>";
         <td>Sex:</td>
         <td>
           <select name="sex">
-            <option value ="0" <?php if($cust_array['sex']==0) echo "selected"?>>--Please Select--</option>
-            <option value ="1" <?php if($cust_array['sex']==1) echo "selected"?>>Male</option>
-            <option value ="2" <?php if($cust_array['sex']==2) echo "selected"?>>Female</option>
+            <option value="0" <?php if ($cust_array['sex'] == 0) echo "selected" ?>>--Please Select--</option>
+            <option value="1" <?php if ($cust_array['sex'] == 1) echo "selected" ?>>Male</option>
+            <option value="2" <?php if ($cust_array['sex'] == 2) echo "selected" ?>>Female</option>
           </select>
         </td>
       </tr>
@@ -282,35 +282,35 @@ height=\"60px\" style=\"border: 1px solid black\"/>";
         <td><input type="email" name="email" value="<?php echo htmlspecialchars($cust_array['email']); ?>" /></td>
       </tr>
       <tr>
-      <td><input type="submit" value="Update" /></td>
+        <td><input type="submit" value="Update" /></td>
       </tr>
     </table>
   </form>
-  <?php if(isset($_SESSION['admin_user'])){
-    ?>
+  <?php if (isset($_SESSION['admin_user'])) {
+  ?>
     <form method="post" action="edit_cust.php">
-    <tr>
-      <td><input type="hidden" name="de_id" value=<?php echo $cust_array['customerid']?>></td>
-    </tr>
-    <tr>
-      <td><input type="submit" value="Delete" /></td>
-    </tr>
+      <tr>
+        <td><input type="hidden" name="de_id" value=<?php echo $cust_array['customerid'] ?>></td>
+      </tr>
+      <tr>
+        <td><input type="submit" value="Delete" /></td>
+      </tr>
     </form>
-<?php
+  <?php
+    }
   }
-}
 
-function display_cust_signup_form()
+  function display_cust_signup_form()
   {
     // This displays the customer form.
     // most of the form is in plain HTML with some
     // optional PHP bits throughout
-?>
+  ?>
   <form method="post" action="cust_signup.php">
     <table border="0">
       <tr>
         <td>Student Card ID:</td>
-        <td><input type="text" name="customerid" required="true" oninput = "value=value.replace(/[^\d]/g,'')" maxlength="12" value="" /></td>
+        <td><input type="text" name="customerid" required="true" oninput="value=value.replace(/[^\d]/g,'')" maxlength="12" value="" /></td>
       </tr>
       <tr>
         <td>Name:</td>
@@ -328,9 +328,9 @@ function display_cust_signup_form()
         <td>Sex:</td>
         <td>
           <select name="sex">
-            <option value ="0">--Please Select--</option>
-            <option value ="1">Male</option>
-            <option value ="2">Female</option>
+            <option value="0">--Please Select--</option>
+            <option value="1">Male</option>
+            <option value="2">Female</option>
           </select>
         </td>
       </tr>
@@ -351,7 +351,7 @@ function display_cust_signup_form()
         <td><input type="email" name="email" value="" /></td>
       </tr>
       <tr>
-      <td><input type="submit" value="Sign Up" /></td>
+        <td><input type="submit" value="Sign Up" /></td>
       </tr>
     </table>
   </form>
@@ -444,19 +444,19 @@ function display_cust_signup_form()
   <table border="0" width="100%" cellspacing="0">
     <form action="purchase.php" method="post">
       <tr>
-        <th colspan="2" bgcolor="#cccccc">Your Details</th>
+        <th colspan="2" bgcolor="#E7AEA0">Your Details</th>
       </tr>
       <tr>
         <td align=center> Name</td>
-        <td><input type="text" name="name" value="<?php echo $cust_details['name'];?>" maxlength="40" size="40" /></td>
+        <td><input type="text" name="name" value="<?php echo $cust_details['name']; ?>" maxlength="40" size="40" /></td>
       </tr>
       <tr>
         <td align=center>Student Card</td>
-        <td><input type="text" name="customerid" value="<?php echo $cust_details['customerid'];?>" maxlength="40" size="40" /></td>
+        <td><input type="text" name="customerid" value="<?php echo $cust_details['customerid']; ?>" maxlength="40" size="40" /></td>
       </tr>
       <tr>
         <td align=center>dormitory</td>
-        <td><input type="text" name="dormitory" value="<?php echo $cust_details['dormitory'];?>" maxlength="20" size="40" /></td>
+        <td><input type="text" name="dormitory" value="<?php echo $cust_details['dormitory']; ?>" maxlength="20" size="40" /></td>
       </tr>
 
       <td colspan="2" align="center">
@@ -478,7 +478,7 @@ function display_cust_signup_form()
   <table border="0" width="100%" cellspacing="0">
     <form action="process.php" method="post">
       <tr>
-        <th colspan="2" bgcolor="#cccccc">Payment Details</th>
+        <th colspan="2" bgcolor="#E7AEA0">Payment Details</th>
       </tr>
       <tr>
         <td>Type</td>
@@ -490,7 +490,7 @@ function display_cust_signup_form()
       </tr>
       <tr>
         <td colspan="2" align="center">
-          <input type="hidden" name="orderid" value="<?php echo $orderid;?>">
+          <input type="hidden" name="orderid" value="<?php echo $orderid; ?>">
           <p><strong>Please press Purchase to confirm your purchase.</strong></p>
           <?php display_form_button('purchase', 'Purchase These Items'); ?>
         </td>
@@ -507,11 +507,11 @@ function display_cust_signup_form()
 
     echo "<table border=\"0\" width=\"100%\" cellspacing=\"0\">
          <form action=\"show_cart.php\" method=\"post\">
-         <tr><th colspan=\"" . (1 + $images) . "\" bgcolor=\"#cccccc\"></th>
-         <th bgcolor=\"#cccccc\">Restaurant</th>
-         <th bgcolor=\"#cccccc\">Price</th>
-         <th bgcolor=\"#cccccc\">Quantity</th>
-         <th bgcolor=\"#cccccc\">Total</th>
+         <tr><th colspan=\"" . (1 + $images) . "\" bgcolor=\"#E7AEA0\"></th>
+         <th bgcolor=\"#E7AEA0\">Restaurant</th>
+         <th bgcolor=\"#E7AEA0\">Price</th>
+         <th bgcolor=\"#E7AEA0\">Quantity</th>
+         <th bgcolor=\"#E7AEA0\">Total</th>
          </tr>";
 
     //display each item as a table row
@@ -552,8 +552,8 @@ function display_cust_signup_form()
     }
     // display total row
     echo "<tr>
-        <th colspan=\"" . (4 + $images) . "\" bgcolor=\"#cccccc\">&nbsp;</th>
-        <th align=\"center\" bgcolor=\"#cccccc\">
+        <th colspan=\"" . (4 + $images) . "\" bgcolor=\"#E7AEA0\">&nbsp;</th>
+        <th align=\"center\" bgcolor=\"#E7AEA0\">
             ￥" . number_format($_SESSION['total_price'], 2) . "
         </th>
         </tr>";
@@ -580,7 +580,7 @@ function display_cust_signup_form()
     // dispaly form asking for name and password
 ?>
   <form method="post" action="admin.php">
-    <table bgcolor="#cccccc">
+    <table bgcolor="#E7AEA0">
       <tr>
         <td>Username:</td>
         <td><input type="text" name="username" /></td>
@@ -590,10 +590,10 @@ function display_cust_signup_form()
         <td><input type="password" name="passwd" /></td>
       </tr>
       <tr>
-      <td><input type="radio" name="category" value="admin"/> Administrator</td>
+        <td><input type="radio" name="category" value="admin" /> Administrator</td>
       </tr>
       <tr>
-      <td><input type="radio" name="category" value="rest" checked/> Restaurant</td>
+        <td><input type="radio" name="category" value="rest" checked /> Restaurant</td>
       </tr>
       <tr>
         <td colspan="2" align="center">
@@ -610,7 +610,7 @@ function display_cust_signup_form()
     // dispaly form asking for name and password
 ?>
   <form method="post" action="cust.php">
-    <table bgcolor="#cccccc">
+    <table bgcolor="#E7AEA0">
       <tr>
         <td>Student Card ID:</td>
         <td><input type="number" min="1" max="999999999999" name="customerid" /></td>
@@ -638,7 +638,9 @@ function display_cust_signup_form()
   <a href="insert_merchant_form.php">Add a new Restaurant</a><br />
   <a href="edit_merchant_form.php">Update a Restaurant</a><br />
   <a href="delete_merchant_form.php">Delete a Restaurant</a><br />
-  <a href="cust_manage_form.php"><h3>Customer Management</h3></a>
+  <a href="cust_manage_form.php">
+    <h3>Customer Management</h3>
+  </a>
   <h3>Food Management:</h3>
   <a href="insert_food_form.php">Add a new food</a><br />
   <a href="index.php">Update, Delete food</a><br /><br />
@@ -656,11 +658,13 @@ function display_cust_signup_form()
   <a href="insert_food_form.php">Add a new food</a><br />
   <?php
     $conn = db_connect();
-    $query="select catid from merchants where catname='".$_SESSION['rest_user']."'";
-    $catid=$conn->query($query)->fetch_object()->catid;
+    $query = "select catid from merchants where catname='" . $_SESSION['rest_user'] . "'";
+    $catid = $conn->query($query)->fetch_object()->catid;
   ?>
   <a href="show_cat.php?catid=<?php echo $catid; ?>">Update, Delete food</a><br />
-  <a href="show_order.php?catid=<?php echo $catid; ?>"><h3>Order Management</h3></a>
+  <a href="show_order.php?catid=<?php echo $catid; ?>">
+    <h3>Order Management</h3>
+  </a>
   <a href="change_password_form.php">Change your password</a><br />
 <?php
   }

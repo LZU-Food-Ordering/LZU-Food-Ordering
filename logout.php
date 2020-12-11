@@ -4,7 +4,7 @@
 require_once('food_sc_fns.php');
 session_start();
 $userkind = "admin_user";
-if(isset($_SESSION['rest_user']))
+if (isset($_SESSION['rest_user']))
   $userkind = "rest_user";
 $old_user = $_SESSION[$userkind];  // store  to test if they *were* logged in
 unset($_SESSION[$userkind]);

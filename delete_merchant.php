@@ -7,7 +7,7 @@ session_start();
 do_html_header("Deleting merchant");
 if (check_admin_user()) {
   if (isset($_POST['catname'])) {
-    if(delete_merchant($_POST['catname'])) {
+    if (delete_merchant($_POST['catname'])) {
       echo "<p>merchant was deleted.</p>";
     } else {
       echo "<p>merchant could not be deleted.<br />

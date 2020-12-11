@@ -4,10 +4,10 @@ function get_stock($foodid)
 {
   $conn = db_connect();
   $query = "select stock from foods
-  where foodid=". $foodid;
+  where foodid=" . $foodid;
   $result = $conn->query($query);
-  if(!$result) {
-  return false;
+  if (!$result) {
+    return false;
   }
   $stock = $result->fetch_object()->stock;
   return $stock;

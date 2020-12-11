@@ -26,12 +26,12 @@ function display_merchant_form($merchant = '')
         <td><input type="text" name="catname" size="40" maxlength="40" value="<?php echo htmlspecialchars($edit ? $merchant['catname'] : ''); ?>" /></td>
       </tr>
       <?php
-      if(check_admin_user()){
+      if (check_admin_user()) {
       ?>
-      <tr>
-        <td>Password:</td>
-        <td><input type="password" name="password" size="40" maxlength="40" value="" /></td>
-      </tr>
+        <tr>
+          <td>Password:</td>
+          <td><input type="password" name="password" size="40" maxlength="40" value="" /></td>
+        </tr>
       <?php
       }
       ?>
@@ -46,13 +46,13 @@ function display_merchant_form($merchant = '')
       <?php
       if (check_admin_user()) {
       ?>
-      <tr>
-        <td>Recommend:</td>
-        <td><select name="recommend">
-            <option value ="0" <?php if ($edit) if($merchant['recommend']==0) echo "selected"; ?>>No</option>
-            <option value ="1" <?php if ($edit) if($merchant['recommend']==1) echo "selected"; ?>>Yes</option>
-          </select></td>
-      </tr>
+        <tr>
+          <td>Recommend:</td>
+          <td><select name="recommend">
+              <option value="0" <?php if ($edit) if ($merchant['recommend'] == 0) echo "selected"; ?>>No</option>
+              <option value="1" <?php if ($edit) if ($merchant['recommend'] == 1) echo "selected"; ?>>Yes</option>
+            </select></td>
+        </tr>
       <?php
       }
       ?>
@@ -109,11 +109,11 @@ function display_food_form($food = '')
       <tr>
         <td>Name:</td>
         <?php
-          if($edit){
+        if ($edit) {
         ?>
-        <input type="hidden" name="foodid" value="<?php echo htmlspecialchars($food['foodid']); ?>" />
-        <?php 
-          }
+          <input type="hidden" name="foodid" value="<?php echo htmlspecialchars($food['foodid']); ?>" />
+        <?php
+        }
         ?>
         <td><input type="text" name="title" value="<?php echo htmlspecialchars($edit ? $food['title'] : ''); ?>" /></td>
       </tr>
@@ -125,39 +125,39 @@ function display_food_form($food = '')
         <td>Status:</td>
         <td>
           <select name="status">
-            <option value ="0" <?php if($edit) if($food['status']==0) echo "selected"?>>Unavailable</option>
-            <option value ="1" <?php if($edit) if($food['status']==1) echo "selected"?>>Available</option>
+            <option value="0" <?php if ($edit) if ($food['status'] == 0) echo "selected" ?>>Unavailable</option>
+            <option value="1" <?php if ($edit) if ($food['status'] == 1) echo "selected" ?>>Available</option>
           </select>
         </td>
       </tr>
       <?php
-        if (check_admin_user()){
-        ?>
-      <tr>
-        <td>Restaurant:</td>
-        <td><select name="catid">
-            <?php
-            // list of possible merchants comes from database
-            $cat_array = get_merchants();
-            foreach ($cat_array as $thiscat) {
-              echo "<option value=\"" . htmlspecialchars($thiscat['catid']) . "\"";
-              // if existing food, put in current catgory
-              if (($edit) && ($thiscat['catid'] == $food['catid'])) {
-                echo " selected";
+      if (check_admin_user()) {
+      ?>
+        <tr>
+          <td>Restaurant:</td>
+          <td><select name="catid">
+              <?php
+              // list of possible merchants comes from database
+              $cat_array = get_merchants();
+              foreach ($cat_array as $thiscat) {
+                echo "<option value=\"" . htmlspecialchars($thiscat['catid']) . "\"";
+                // if existing food, put in current catgory
+                if (($edit) && ($thiscat['catid'] == $food['catid'])) {
+                  echo " selected";
+                }
+                echo ">" . htmlspecialchars($thiscat['catname']) . "</option>";
               }
-              echo ">" . htmlspecialchars($thiscat['catname']) . "</option>";
-            }
-            ?>
-          </select>
-        </td>
-      </tr>
+              ?>
+            </select>
+          </td>
+        </tr>
       <?php
-        } else {
-          $conn = db_connect();
-          $query="select catid from merchants where catname='".$_SESSION['rest_user']."'";
-          $catid=$conn->query($query)->fetch_object()->catid;
-          echo "<input type=\"hidden\" name=\"catid\" value=". htmlspecialchars($catid).">";
-        }
+      } else {
+        $conn = db_connect();
+        $query = "select catid from merchants where catname='" . $_SESSION['rest_user'] . "'";
+        $catid = $conn->query($query)->fetch_object()->catid;
+        echo "<input type=\"hidden\" name=\"catid\" value=" . htmlspecialchars($catid) . ">";
+      }
       ?>
       <tr>
         <td>Price:</td>
@@ -204,7 +204,7 @@ function display_password_form()
 ?>
   <br />
   <form action="change_password.php" method="post">
-    <table width="250" cellpadding="2" cellspacing="0" bgcolor="#cccccc">
+    <table width="250" cellpadding="2" cellspacing="0" bgcolor="#E7AEA0">
       <tr>
         <td>Old password:</td>
         <td><input type="password" name="old_passwd" size="16" maxlength="16" /></td>
@@ -228,15 +228,15 @@ function display_password_form()
 
 function display_picture_form($location)
 {
-?>
-</form>
+  ?>
+  </form>
   <br />
   <form method="post" action="upload_image.php" enctype="multipart/form-data">
-    <table width="250" cellpadding="2" cellspacing="0" bgcolor="#cccccc">
+    <table width="250" cellpadding="2" cellspacing="0" bgcolor="#E7AEA0">
       <tr>
         <td>
           <?php
-          if(@file_exists($location)){
+          if (@file_exists($location)) {
             echo "<img id='user_logo' src='$location'>";
           } else {
             echo "You haven't uploaded a picture for it!";
@@ -251,7 +251,7 @@ function display_picture_form($location)
       </tr>
       <tr>
         <td>
-          <input type="hidden" name="location" value="<?php echo $location;?>">
+          <input type="hidden" name="location" value="<?php echo $location; ?>">
         </td>
       </tr>
       <tr>
@@ -327,7 +327,7 @@ function update_merchant($cat_array)
   $conn = db_connect();
   $k = "";
   if (check_admin_user()) {
-    $k = ",password=sha1('" . $conn->real_escape_string($cat_array['password'])."'), recommend=" . $conn->real_escape_string($cat_array['recommend']);
+    $k = ",password=sha1('" . $conn->real_escape_string($cat_array['password']) . "'), recommend=" . $conn->real_escape_string($cat_array['recommend']);
   }
   $query = "update merchants
              set catname='" . $conn->real_escape_string($cat_array['catname']) . "',
@@ -390,8 +390,8 @@ function cust_signup($detail_array)
 
   $query = "INSERT INTO `customers`(`customerid`, `name`, `dormitory`, `password`, 
                                     `sex`, `age`, `phone`, `qq`, `email`) 
-            VALUES ('". $conn->real_escape_string($detail_array['customerid'])."',
-                    '".$conn->real_escape_string($detail_array['name']) . "',
+            VALUES ('" . $conn->real_escape_string($detail_array['customerid']) . "',
+                    '" . $conn->real_escape_string($detail_array['name']) . "',
                     '" . $conn->real_escape_string($detail_array['dormitory']) . "',
                     sha1('" . $conn->real_escape_string($detail_array['password']) . "'),
                     " . $conn->real_escape_string($detail_array['sex']) . ",
@@ -407,7 +407,8 @@ function cust_signup($detail_array)
   }
 }
 
-function update_food($food_array) {
+function update_food($food_array)
+{
   // change details of food stored under $oldfoodid in
   // the database to new details in arguments
 
