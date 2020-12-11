@@ -18,7 +18,7 @@
 
 因为时间有限，该平台比较脆弱，不适合商用。
 
-版权所有 &copy; @hollowman6 & @somnuschaplet
+版权所有 &copy; [@hollowman6](https://github.com/HollowMan6) & [@somnuschaplet](https://github.com/somnuschaplet)
 
 # LZU Food Ordering
 PHP based platform for food ordering.
@@ -27,4 +27,4 @@ Our project for Course `Web Database Technologies` at Lanzhou University.
 
 Due to limited time, the platform may be vulnerable and not suitable for commercial use.
 
-Copyright &copy; @hollowman6 & @somnuschaplet
+Copyright &copy; [@hollowman6](https://github.com/HollowMan6) & [@somnuschaplet](https://github.com/somnuschaplet)
