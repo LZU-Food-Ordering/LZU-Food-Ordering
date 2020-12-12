@@ -417,6 +417,8 @@ height=\"60px\" style=\"border: 1px solid black\"/>";
       echo htmlspecialchars($food['title']);
       echo "</li><li><strong>Stock:</strong> ";
       echo htmlspecialchars($food['stock']);
+      echo "</li><li><strong>Sold:</strong> ";
+      echo htmlspecialchars(get_sold_amount($food['foodid']));
       echo "</li><li><strong>Provided by:</strong> ";
       echo htmlspecialchars($food['rest']);
       echo "</li><li><strong>Our Price:</strong> ";

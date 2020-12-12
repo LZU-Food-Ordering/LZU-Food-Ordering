@@ -11,9 +11,19 @@ if (isset($_POST['username']) && isset($_POST['passwd'])) {
   $passwd = $_POST['passwd'];
   $cate = $_POST['category'];
   if (login($username, $passwd, $cate) && $cate == 'admin') {
+    if(check_cust_user()){
+      unset($_SESSION['cust_user']);
+    } else if(check_rest_user()){
+      unset($_SESSION['rest_user']);
+    }
     // if they are in the database register the user id
     $_SESSION['admin_user'] = $username;
   } else if (login($username, $passwd, $cate) && $cate == 'rest') {
+    if(check_cust_user()){
+      unset($_SESSION['cust_user']);
+    } else if(check_admin_user()){
+      unset($_SESSION['admin_user']);
+    }
     $_SESSION['rest_user'] = $username;
   } else {
     // unsuccessful login

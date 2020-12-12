@@ -140,3 +140,18 @@ function calculate_items($cart)
   }
   return $items;
 }
+
+function get_sold_amount($foodid) {
+  // sum total price for all items in shopping cart
+  $amount = 0.0;
+  $conn = db_connect();
+  $query = "select quantity from order_items where foodid=".$foodid;
+  $result = $conn->query($query);
+  if ($result) {
+    $result = db_result_to_array($result);
+    foreach ($result as $row) {
+      $amount+=$row['quantity'];
+    }
+  }
+  return $amount;
+}
