@@ -155,6 +155,20 @@ function get_order_details($catid)
   return $result;
 }
 
+function get_order_id_by_matching_order_items_name($key)
+{
+  $conn = db_connect();
+  $query = "select distinct orders.orderid from order_items,orders,foods
+             where foods.foodid=order_items.foodid and orders.orderid=order_items.orderid and
+            foods.title like '%" . $conn->real_escape_string($key) . "%'";
+  $result = @$conn->query($query);
+  if (!$result) {
+    return false;
+  }
+  $result = db_result_to_array($result);
+  return $result;
+}
+
 function get_order_details_by_orderid($orderid)
 {
   $conn = db_connect();
@@ -349,177 +363,226 @@ function display_each_orders_cust($food)
     } else {
     ?>
       <form align="right" method="get" action="cust_show_order.php">
-        Search Orders by Order ID:
+        Search Orders by
+        <select name="way">
+          <option value="foodname">Food Name</option>
+          <option value="orderid">Order ID</option>
+        </select>:
         <input type="text" name="key">
         <input type="submit">
       </form>
       <h3>Unpaid Orders:</h3>
       <table width="100%" border="0">
-    <?php
-      foreach ($food_array as $food) {
-        if ($food['order_status'] == "PARTIAL") {
-          if (!empty($_GET['key'])) {
-            if (strstr(strval($food['orderid']), $_GET['key']))
+        <?php
+        if (!empty($_GET['key'])) {
+          if ($_GET['way'] == "foodname") {
+            $order_ids = get_order_id_by_matching_order_items_name($_GET['key']);
+          }
+        }
+        foreach ($food_array as $food) {
+          if ($food['order_status'] == "PARTIAL") {
+            if (!empty($_GET['key'])) {
+              if ($_GET['way'] == "orderid" && strstr(strval($food['orderid']), $_GET['key']))
+                display_each_orders_cust($food);
+              else if ($_GET['way'] == "foodname") {
+                if ($order_ids)
+                  foreach ($order_ids as $orderid) {
+                    if ($food['orderid'] == $orderid['orderid']) {
+                      display_each_orders_cust($food);
+                    }
+                  }
+              }
+            } else {
               display_each_orders_cust($food);
-          } else {
-            display_each_orders_cust($food);
+            }
+          }
+        }
+        echo "<h3>Pending Orders:</h3>";
+        foreach ($food_array as $food) {
+          if ($food['order_status'] == "PAID") {
+            if (!empty($_GET['key'])) {
+              if ($_GET['way'] == "orderid" && strstr(strval($food['orderid']), $_GET['key']))
+                display_each_orders_cust($food);
+              else if ($_GET['way'] == "foodname") {
+                if ($order_ids)
+                  foreach ($order_ids as $orderid) {
+                    if ($food['orderid'] == $orderid['orderid']) {
+                      display_each_orders_cust($food);
+                    }
+                  }
+              }
+            } else {
+              display_each_orders_cust($food);
+            }
+          }
+        }
+        echo "<h3>Handling Orders:</h3>";
+        foreach ($food_array as $food) {
+          if ($food['order_status'] == "ACCEPT" || $food['order_status'] == "MIX") {
+            if (!empty($_GET['key'])) {
+              if ($_GET['way'] == "orderid" && strstr(strval($food['orderid']), $_GET['key']))
+                display_each_orders_cust($food);
+              else if ($_GET['way'] == "foodname") {
+                if ($order_ids)
+                  foreach ($order_ids as $orderid) {
+                    if ($food['orderid'] == $orderid['orderid']) {
+                      display_each_orders_cust($food);
+                    }
+                  }
+              }
+            } else {
+              display_each_orders_cust($food);
+            }
+          }
+        }
+        echo "<h3>History Orders:</h3>";
+        foreach ($food_array as $food) {
+          if ($food['order_status'] == "DONE" || $food['order_status'] == "CANCEL") {
+            if (!empty($_GET['key'])) {
+              if (strstr(strval($food['orderid']), $_GET['key']))
+                display_each_orders_cust($food);
+              else if ($_GET['way'] == "foodname") {
+                if ($order_ids)
+                  foreach ($order_ids as $orderid) {
+                    if ($food['orderid'] == $orderid['orderid']) {
+                      display_each_orders_cust($food);
+                    }
+                  }
+              }
+            } else {
+              display_each_orders_cust($food);
+            }
           }
         }
       }
-      echo "<h3>Pending Orders:</h3>";
-      foreach ($food_array as $food) {
-        if ($food['order_status'] == "PAID") {
-          if (!empty($_GET['key'])) {
-            if (strstr(strval($food['orderid']), $_GET['key']))
-              display_each_orders_cust($food);
-          } else {
-            display_each_orders_cust($food);
-          }
-        }
-      }
-      echo "<h3>Handling Orders:</h3>";
-      foreach ($food_array as $food) {
-        if ($food['order_status'] == "ACCEPT" || $food['order_status'] == "MIX") {
-          if (!empty($_GET['key'])) {
-            if (strstr(strval($food['orderid']), $_GET['key']))
-              display_each_orders_cust($food);
-          } else {
-            display_each_orders_cust($food);
-          }
-        }
-      }
-      echo "<h3>History Orders:</h3>";
-      foreach ($food_array as $food) {
-        if ($food['order_status'] == "DONE" || $food['order_status'] == "CANCEL") {
-          if (!empty($_GET['key'])) {
-            if (strstr(strval($food['orderid']), $_GET['key']))
-              display_each_orders_cust($food);
-          } else {
-            display_each_orders_cust($food);
-          }
-        }
-      }
+
+      echo "<table />";
     }
 
-    echo "<table />";
-  }
+    function handle_orders_cust($orderid, $status)
+    {
+      // change the status of order with orderid in the database
 
-  function handle_orders_cust($orderid, $status)
-  {
-    // change the status of order with orderid in the database
-
-    $conn = db_connect();
-    $query = "update orders
+      $conn = db_connect();
+      $query = "update orders
               set order_status='" . $conn->real_escape_string($status) . "'
               where orderid=" . $conn->real_escape_string($orderid);
-    $result = @$conn->query($query);
-    if (!$result) {
-      return false;
-    } else {
-      $query = "update order_items
+      $result = @$conn->query($query);
+      if (!$result) {
+        return false;
+      } else {
+        $query = "update order_items
               set item_status='" . $conn->real_escape_string($status) . "'
               where orderid=" . $conn->real_escape_string($orderid);
-      $result = @$conn->query($query);
-      if (!$result)
-        return false;
-      else {
-        return true;
+        $result = @$conn->query($query);
+        if (!$result)
+          return false;
+        else {
+          return true;
+        }
       }
     }
-  }
 
-  function handle_orders($foodid, $orderid, $status)
-  {
-    // change the status of order with orderid in the database
+    function handle_orders($foodid, $orderid, $status)
+    {
+      // change the status of order with orderid in the database
 
-    $conn = db_connect();
-    $query = "update order_items
+      $conn = db_connect();
+      $query = "update order_items
               set item_status='" . $conn->real_escape_string($status) . "'
               where orderid=" . $conn->real_escape_string($orderid) . " and
               foodid=" . $conn->real_escape_string($foodid);
-    $result = @$conn->query($query);
-    if (!$result) {
-      return false;
-    } else {
-      $query = "select item_status from order_items
-              where orderid=" . $conn->real_escape_string($orderid);
       $result = @$conn->query($query);
-      if (!$result)
+      if (!$result) {
         return false;
-      else if ($result->num_rows == 1) {
       } else {
-        $rowsnum = $result->num_rows;
-        $result = db_result_to_array($result);
-        $count = 0;
-        foreach ($result as $row) {
-          if ($row['item_status'] == $status)
-            $count++;
-        }
-        if ($count == $rowsnum) {
+        $query = "select item_status from order_items
+              where orderid=" . $conn->real_escape_string($orderid);
+        $result = @$conn->query($query);
+        if (!$result)
+          return false;
+        else if ($result->num_rows == 1) {
         } else {
-          $status = "MIX";
+          $rowsnum = $result->num_rows;
+          $result = db_result_to_array($result);
+          $count = 0;
+          foreach ($result as $row) {
+            if ($row['item_status'] == $status)
+              $count++;
+          }
+          if ($count == $rowsnum) {
+          } else {
+            $status = "MIX";
+          }
         }
-      }
-      $query = "update orders
+        $query = "update orders
       set order_status='" . $conn->real_escape_string($status) . "'
       where orderid=" . $conn->real_escape_string($orderid);
-      $result = @$conn->query($query);
-      if (!$result)
-        return false;
-      else
-        return true;
+        $result = @$conn->query($query);
+        if (!$result)
+          return false;
+        else
+          return true;
+      }
     }
-  }
 
-  function display_order_items($items_array)
-  {
-    // display items in shopping cart
-    // optionally allow changes (true or false)
-    // optionally include images (1 - yes, 0 - no)
-
-    echo "<table border=\"0\" width=\"100%\" cellspacing=\"0\">
+    function display_order_items($items_array)
+    {
+      // display items in shopping cart
+      // optionally allow changes (true or false)
+      // optionally include images (1 - yes, 0 - no)
+      echo "<table border=\"0\" width=\"100%\" cellspacing=\"0\">
        <tr><th colspan=\"2\" bgcolor=\"#E7AEA0\"></th>
+       <th bgcolor=\"#E7AEA0\">Action</th>
        <th bgcolor=\"#E7AEA0\">Restaurant</th>
        <th bgcolor=\"#E7AEA0\">Price</th>
        <th bgcolor=\"#E7AEA0\">Status</th>
        <th bgcolor=\"#E7AEA0\">Quantity</th>
        <th bgcolor=\"#E7AEA0\">Total</th>
        </tr>";
-    $total_price = 0.00;
-    //display each item as a table row
-    foreach ($items_array as $item) {
-      $total_price += $item['item_price'] * $item['quantity'];
-      $food = get_food_details($item['foodid']);
-      echo "<tr>";
+      $total_price = 0.00;
+      //display each item as a table row
+      foreach ($items_array as $item) {
+        $total_price += $item['item_price'] * $item['quantity'];
+        $food = get_food_details($item['foodid']);
+        echo "<tr>";
 
-      echo "<td align=\"left\">";
-      if (file_exists("images/{$item['foodid']}.jpg")) {
-        $size = GetImageSize("images/{$item['foodid']}.jpg");
-        if (($size[0] > 0) && ($size[1] > 0)) {
-          echo "<img src=\"images/" . htmlspecialchars($item['foodid']) . ".jpg\"
+        echo "<td align=\"left\">";
+        if (file_exists("images/{$item['foodid']}.jpg")) {
+          $size = GetImageSize("images/{$item['foodid']}.jpg");
+          if (($size[0] > 0) && ($size[1] > 0)) {
+            echo "<img src=\"images/" . htmlspecialchars($item['foodid']) . ".jpg\"
                   style=\"border: 1px solid black\"
                   height=\"42px\"/>";
+          }
+        } else {
+          echo "&nbsp;";
         }
-      } else {
-        echo "&nbsp;";
-      }
-      echo "</td>";
+        echo "</td>";
 
-      echo "<td align=\"left\">
-        <a href=\"show_food.php?foodid=" . urlencode($item['foodid']) . "\">" . htmlspecialchars($food['title']) . "</a></td>
-        <td align=\"center\">" . htmlspecialchars($food['rest']) . "</td>
+        echo "<td align=\"left\">
+        <a href=\"show_food.php?foodid=" . urlencode($item['foodid']) . "\">" . htmlspecialchars($food['title']) . "</a></td><td>";
+        if ($item['item_status'] != 'CANCEL' && $item['item_status'] != 'DONE') {
+        ?> <td align="center">
+            <form method="post" action="cust_show_order_items.php?orderid=<?php echo $_GET['orderid']; ?>">
+              <input type="hidden" name="foodid" value="<?php echo $item['foodid']; ?>">
+              <input type="submit" value="Cancel">
+            </form>
+      <?php
+        }
+        echo "</td><td align=\"center\">" . htmlspecialchars($food['rest']) . "</td>
         <td align=\"center\">￥" . number_format($item['item_price'], 2) . "</td>
         <td align=\"center\">" . htmlspecialchars($item['item_status']) . "</td>
         <td align=\"center\">";
 
-      echo $item['quantity'];
-      echo "</td><td align=\"center\">￥" . number_format($item['item_price'] * $item['quantity'], 2) . "</td></tr>\n";
-    }
-    // display total row
-    echo "<tr>
-      <th colspan=\"6\" bgcolor=\"#E7AEA0\">&nbsp;</th>
+        echo $item['quantity'];
+        echo "</td><td align=\"center\">￥" . number_format($item['item_price'] * $item['quantity'], 2) . "</td></tr>\n";
+      }
+      // display total row
+      echo "<tr>
+      <th colspan=\"7\" bgcolor=\"#E7AEA0\">&nbsp;</th>
       <th align=\"center\" bgcolor=\"#E7AEA0\">
           ￥" . number_format($total_price, 2) . "
       </th>
       </tr>";
-  }
+    }
