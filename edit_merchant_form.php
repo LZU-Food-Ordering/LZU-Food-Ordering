@@ -11,7 +11,7 @@ if (check_admin_user()) {
       $catid = $_GET['catid'];
       $cat = get_merchant_details($catid);
       display_merchant_form($cat);
-      do_html_url("upload_image.php?catid=" . $_GET['catid'], "Edit image");
+      display_button("upload_image.php?catid=" . $_GET['catid'], "Edit image");
     } else {
       echo "<p>Could not retrieve merchant details.</p>";
     }
@@ -24,7 +24,7 @@ if (check_admin_user()) {
     // action on as links to cat pages
     action_on_merchants($cat_array, "edit_merchant_form");
   }
-  do_html_url("admin.php", "Back to administration menu");
+  display_button("admin.php", "Back to administration menu");
 } else if (check_rest_user()) {
   $conn = db_connect();
   $query = "select catid from merchants where catname='" . $_SESSION['rest_user'] . "'";

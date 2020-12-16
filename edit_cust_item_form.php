@@ -8,7 +8,7 @@ $details = get_cust_details($customerid);
 do_html_header("Edit a Customer");
 if (check_admin_user()) {
   display_cust_form($details);
-  do_html_url("admin.php", "Back to administration menu");
+  display_button("admin.php", "Back to administration menu");
 } else {
   echo "<p>You are not authorized to enter the administration area.</p>";
 }

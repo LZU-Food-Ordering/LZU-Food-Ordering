@@ -18,22 +18,21 @@ if ($food['catid']) {
 
 // if logged in as admin, show edit food links
 if (check_admin_user()) {
-  display_button("edit_food_form.php?foodid=" . urlencode($foodid), "edit-item", "Edit Item");
-  display_button("admin.php", "admin-menu", "Admin Menu");
+  display_button("edit_food_form.php?foodid=" . urlencode($foodid), "Edit Item");
+  display_button("admin.php", "Admin Menu");
 } else if (check_rest_user()) {
   $conn = db_connect();
   $query = "select catid from merchants where catname='" . $_SESSION['rest_user'] . "'";
   $catid = $conn->query($query)->fetch_object()->catid;
   if ($food['catid'] == $catid)
-    display_button("edit_food_form.php?foodid=" . urlencode($foodid), "edit-item", "Edit Item");
-  display_button("admin.php", "admin-menu", "Admin Menu");
+    display_button("edit_food_form.php?foodid=" . urlencode($foodid), "Edit Item");
+  display_button("admin.php", "Admin Menu");
 } else if (check_cust_user() && $food['status'] == 1) {
   display_button(
     "show_cart.php?new=" . urlencode($foodid),
-    "add-to-cart",
     "Add " . htmlspecialchars($food['title']) . " To My Shopping Cart"
   );
 }
-display_button($target, "continue", "Continue");
+display_button($target, "Continue");
 
 do_html_footer();

@@ -254,6 +254,7 @@ function display_each_orders($food)
   </form>
   </td>
   </table>
+  <hr/>
   <?php
 }
 
@@ -353,6 +354,7 @@ function display_each_orders_cust($food)
     ?>
     </td>
     </table>
+    <hr/>
     <?php
   }
 
@@ -561,7 +563,7 @@ function display_each_orders_cust($food)
         echo "</td>";
 
         echo "<td align=\"left\">
-        <a href=\"show_food.php?foodid=" . urlencode($item['foodid']) . "\">" . htmlspecialchars($food['title']) . "</a></td><td>";
+        <a href=\"show_food.php?foodid=" . urlencode($item['foodid']) . "\">" . htmlspecialchars($food['title']) . "</a></td>";
         if ($item['item_status'] != 'CANCEL' && $item['item_status'] != 'DONE') {
         ?> <td align="center">
             <form method="post" action="cust_show_order_items.php?orderid=<?php echo $_GET['orderid']; ?>">
@@ -569,8 +571,10 @@ function display_each_orders_cust($food)
               <input type="submit" value="Cancel">
             </form>
       <?php
+        } else {
+          echo "<td></td>";
         }
-        echo "</td><td align=\"center\">" . htmlspecialchars($food['rest']) . "</td>
+        echo "<td align=\"center\">" . htmlspecialchars($food['rest']) . "</td>
         <td align=\"center\">￥" . number_format($item['item_price'], 2) . "</td>
         <td align=\"center\">" . htmlspecialchars($item['item_status']) . "</td>
         <td align=\"center\">";

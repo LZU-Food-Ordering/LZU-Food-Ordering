@@ -17,14 +17,14 @@ if (isset($_SESSION['cart']) && ($pay_type)) {
   if (process_payment($_POST)) {
     update_order_status($orderid, "PAID");
     echo "<p>Thank you for shopping with us. Your order has been placed.</p>";
-    display_button("index.php", "continue-shopping", "Continue Shopping");
+    display_button("index.php", "Continue Shopping");
   } else {
     echo "<p>Could not process your card. Please contact the card issuer or try again.</p>";
-    display_button("purchase.php", "back", "Back");
+    display_button("purchase.php", "Back");
   }
 } else {
   echo "<p>You did not fill in all the fields, please try again.</p><hr />";
-  display_button("purchase.php", "back", "Back");
+  display_button("purchase.php", "Back");
 }
 
 do_html_footer();

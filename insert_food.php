@@ -17,7 +17,7 @@ if (check_admin_user() || check_rest_user()) {
     echo "<p>You have not filled out the form.  Please try again.</p>";
   }
 
-  do_html_url("admin.php", "Back to administration menu");
+  display_button("admin.php", "Back to administration menu");
 } else {
   echo "<p>You are not authorised to view this page.</p>";
 }

@@ -11,8 +11,8 @@ if (isset($_SESSION['cust_user'])) {
   } else {
     echo "<p>Could not retrieve your details.</p>";
   }
-  do_html_url("change_password_form.php", "Change your password");
-  do_html_url("index.php", "Back to Home Page");
+  display_button("change_password_form.php", "Change your password");
+  display_button("index.php", "Back to Home Page");
 } else {
   echo "<p>Please login as a customer.</p>";
 }

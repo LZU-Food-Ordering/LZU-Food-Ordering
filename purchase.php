@@ -22,14 +22,14 @@ if (isset($_SESSION['cart']) && ($name) && ($dormitory) && ($customerid)) {
     //get pay details
     display_pay_form($orderid);
 
-    display_button("show_cart.php", "continue-shopping", "Continue Shopping");
+    display_button("show_cart.php", "Continue Shopping");
   } else {
     echo "<p>Could not store data, please try again.</p>";
-    display_button('checkout.php', 'back', 'Back');
+    display_button('checkout.php', 'Back');
   }
 } else {
   echo "<p>You did not fill in all the fields, please try again.</p><hr />";
-  display_button('checkout.php', 'back', 'Back');
+  display_button('checkout.php', 'Back');
 }
 
 do_html_footer();
