@@ -21,7 +21,7 @@ if (isset($_SESSION['admin_user'])) {
   } else {
     echo "<p>You have not filled out the form.  Please try again.</p>";
   }
-  do_html_url("index.php", "Back to Home Page");
+  display_button("index.php", "Back to Home Page");
 } else if (isset($_SESSION['cust_user'])) {
   if (isset($_POST)) {
     if (update_cust($_POST)) {
@@ -33,9 +33,9 @@ if (isset($_SESSION['admin_user'])) {
     echo "<p>You have not filled out the form.  Please try again.</p>";
   }
   if (isset($_SESSION['cust_user'])) {
-    do_html_url("index.php", "Back to Home Page");
+    display_button("index.php", "Back to Home Page");
   } else if (isset($_SESSION['admin_user'])) {
-    do_html_url("admin.php", "Back to administration menu");
+    display_button("admin.php", "Back to administration menu");
   }
 } else {
   echo "<p>You are not authorised to view this page.</p>";

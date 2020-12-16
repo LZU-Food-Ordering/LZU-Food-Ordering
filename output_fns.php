@@ -18,10 +18,59 @@ function do_html_header($title = '')
     <title><?php echo htmlspecialchars($title); ?></title>
     <style>
       h2 {
+        text-align: center;
         font-family: Arial, Helvetica, sans-serif;
         font-size: 22px;
         color: orange;
         margin: 6px
+      }
+
+      table {
+        margin: auto;
+      }
+
+      input,
+      select,
+      textarea {
+        padding: 3px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        resize: vertical;
+      }
+
+      input[type=submit] {
+        background-color: #4CAF50;
+        color: white;
+        padding: 3px 10px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      input[type=submit]:hover {
+        background-color: #45a049;
+      }
+
+      button {
+        background-color: #f44336;
+        /* Green */
+        border: none;
+        color: white;
+        border-radius: 10px;
+        padding: 10px 16px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 13px;
+        margin: 4px 2px;
+        cursor: pointer;
+        -webkit-transition-duration: 0.4s;
+        /* Safari */
+        transition-duration: 0.4s;
+      }
+
+      button:hover {
+        box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
       }
 
       body {
@@ -42,7 +91,37 @@ function do_html_header($title = '')
       }
 
       a {
-        color: #C4A93C
+        font-family: 'Helvetica Neue', 'Helvetica', Arial, 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+        text-decoration: none;
+        -webkit-transition: color 1s, text-decoration 1s;
+        transition: color 1s, text-decoration 1s;
+      }
+
+      a,
+      a:visited {
+        color: #009bdf;
+      }
+
+      a:hover,
+      a:focus,
+      a:active {
+        color: rgb(147, 195, 199);
+      }
+
+      img {
+        transition: opacity 1s, filter 1s, transform 1s, box-shadow 1s;
+      }
+
+      img:hover {
+        transform: scale(1.1);
+        box-shadow: 0px 0px 2px 2px #C0C1C0;
+      }
+
+      #title-head {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 60px;
+        color: red;
+        text-decoration: none;
       }
 
       #user_logo {
@@ -55,13 +134,13 @@ function do_html_header($title = '')
     <table width="100%" border="0" cellspacing="0" bgcolor="#E7AEA0">
       <tr>
         <td rowspan="2">
-          <a href="index.php"><img src="images/LZU-food-ordering.jpg" alt="foodorama" border="0" align="left" valign="bottom" height="55" width="325" /></a>
+          <a id="title-head" href="index.php">兰大点餐平台</a>
         </td>
         <td align="right" valign="bottom">
           <?php
           if (isset($_SESSION['cust_user'])) {
-            display_button('edit_cust_form.php', 'edit-cust', 'Update Details');
-            display_button('cust_show_order.php', 'view-orders', 'View Your Orders');
+            display_button('edit_cust_form.php', 'Update Details');
+            display_button('cust_show_order.php', 'View Your Orders');
           }
           if (isset($_SESSION['admin_user'])) {
             echo "&nbsp;";
@@ -73,13 +152,13 @@ function do_html_header($title = '')
         <td align="right" rowspan="2" width="135">
           <?php
           if (isset($_SESSION['admin_user']) || isset($_SESSION['rest_user'])) {
-            display_button('logout.php', 'log-out', 'Log Out');
+            display_button('logout.php', 'Log Out');
           } else if (isset($_SESSION['cust_user'])) {
-            display_button('logout_cust.php', 'log-out', 'Log Out');
-            display_button('show_cart.php', 'view-cart', 'View Your Shopping Cart');
+            display_button('logout_cust.php', 'Log Out');
+            display_button('show_cart.php', 'View Your Shopping Cart');
           } else {
-            display_button('cust_signup_form.php', 'sign-up', 'Sign Up');
-            display_button('cust_login.php', 'log-in', 'Log In');
+            display_button('cust_signup_form.php', 'Sign Up');
+            display_button('cust_login.php', 'Log In');
           }
           ?>
       </tr>
@@ -105,6 +184,9 @@ function do_html_header($title = '')
   {
     // print an HTML footer
     ?>
+    <footer>
+      <p align="center">Copyright &copy; LZU Food Ordering Team @LZU-Food-Ordering</p>
+    </footer>
   </body>
 
   </html>
@@ -671,12 +753,10 @@ height=\"60px\" style=\"border: 1px solid black\"/>";
 <?php
   }
 
-  function display_button($target, $image, $alt)
+  function display_button($target, $alt)
   {
     echo "<div align=\"right\"><a href=\"" . htmlspecialchars($target) . "\">
-          <img src=\"images/" . htmlspecialchars($image) . ".gif\"
-           alt=\"" . htmlspecialchars($alt) . "\" border=\"0\" height=\"50\"
-           width=\"135\"/></a></div>";
+          <button type=\"button\">" . htmlspecialchars($alt) . "</button></a></div>";
   }
 
   function display_form_button($image, $alt)

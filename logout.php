@@ -15,11 +15,11 @@ do_html_header("Logging Out");
 
 if (!empty($old_user)) {
   echo "<p>Logged out.</p>";
-  do_html_url("login.php", "Login");
+  display_button("login.php", "Login");
 } else {
   // if they weren't logged in but came to this page somehow
   echo "<p>You were not logged in, and so have not been logged out.</p>";
-  do_html_url("login.php", "Login");
+  display_button("login.php", "Login");
 }
 
 do_html_footer();

@@ -12,8 +12,8 @@ do_html_header('Customer Management');
 if (check_admin_user()) {
   display_cust_details($details);
   $conn = db_connect();
-  display_button("edit_cust_item_form.php?customerid=" . $conn->real_escape_string($customerid), "edit-item", "Edit Customer");
-  display_button("admin.php", "admin-menu", "Admin Menu");
+  display_button("edit_cust_item_form.php?customerid=" . $conn->real_escape_string($customerid), "Edit Customer");
+  display_button("admin.php", "Admin Menu");
 } else {
   echo "<p>You are not authorized to enter the administration area.</p>";
 }

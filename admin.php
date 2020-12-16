@@ -30,7 +30,7 @@ if (isset($_POST['username']) && isset($_POST['passwd'])) {
     do_html_header("Problem:");
     echo "<p>You could not be logged in.<br/>
             You must be logged in to view this page.</p>";
-    do_html_url('login.php', 'Login');
+    display_button('login.php', 'Login');
     do_html_footer();
     exit;
   }

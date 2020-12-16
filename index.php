@@ -17,7 +17,7 @@ display_recommend_merchants($cat_array);
 
 // if logged in as admin, show add, delete, edit cat links
 if (isset($_SESSION['admin_user'])) {
-  display_button("admin.php", "admin-menu", "Admin Menu");
+  display_button("admin.php", "Admin Menu");
 }
 if (isset($_SESSION['cust_user'])) {
 }

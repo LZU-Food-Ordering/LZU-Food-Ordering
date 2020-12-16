@@ -6,9 +6,9 @@ if (!filled_out($_POST)) {
    echo "<p>You have not filled out the form completely.<br/>
          Please try again.</p>";
    if (check_admin_user() || check_rest_user()) {
-      do_html_url("admin.php", "Back to administration menu");
+      display_button("admin.php", "Back to administration menu");
    } else {
-      do_html_url("index.php", "Back to home page");
+      display_button("index.php", "Back to home page");
    }
    do_html_footer();
    exit;
@@ -46,8 +46,8 @@ if (!filled_out($_POST)) {
    }
 }
 if (check_admin_user() || check_rest_user()) {
-   do_html_url("admin.php", "Back to administration menu");
+   display_button("admin.php", "Back to administration menu");
 } else {
-   do_html_url("index.php", "Back to home page");
+   display_button("index.php", "Back to home page");
 }
 do_html_footer();

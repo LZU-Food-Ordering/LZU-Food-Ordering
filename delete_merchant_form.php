@@ -17,7 +17,7 @@ if (check_admin_user()) {
     // action on as links to cat pages
     action_on_merchants($cat_array, "delete_merchant_form");
   }
-  do_html_url("admin.php", "Back to administration menu");
+  display_button("admin.php", "Back to administration menu");
 } else {
   echo "<p>You are not authorized to enter the administration area.</p>";
 }

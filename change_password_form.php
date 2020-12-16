@@ -6,8 +6,8 @@ do_html_header("Change Password");
 display_password_form();
 
 if (check_admin_user() || check_rest_user()) {
-   do_html_url("admin.php", "Back to administration menu");
+   display_button("admin.php", "Back to administration menu");
 } else {
-   do_html_url("index.php", "Back to home page");
+   display_button("index.php", "Back to home page");
 }
 do_html_footer();

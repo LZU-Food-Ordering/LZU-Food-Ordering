@@ -52,7 +52,7 @@ if ($new) {
     $target = "show_cat.php?catid=" . urlencode($details['catid']);
   }
 }
-display_button($target, "continue-shopping", "Continue Shopping");
+display_button($target, "Continue Shopping");
 
 // use this if SSL is set up
 // $path = $_SERVER['PHP_SELF'];
@@ -62,6 +62,6 @@ display_button($target, "continue-shopping", "Continue Shopping");
 //                 "go-to-checkout", "Go To Checkout");
 
 // if no SSL use below code
-display_button("checkout.php", "go-to-checkout", "Go To Checkout");
+display_button("checkout.php", "Go To Checkout");
 
 do_html_footer();

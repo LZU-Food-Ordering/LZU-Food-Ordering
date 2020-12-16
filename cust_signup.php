@@ -7,7 +7,7 @@ session_start();
 do_html_header("Signning up");
 if (isset($_SESSION['cust_user'])) {
   echo "You have already logged in!\n";
-  do_html_url("index.php", "Back to Home Page");
+  display_button("index.php", "Back to Home Page");
 } else {
   if (isset($_POST)) {
     if (cust_signup($_POST)) {
