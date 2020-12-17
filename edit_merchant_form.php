@@ -31,6 +31,7 @@ if (check_admin_user()) {
   $catid = $conn->query($query)->fetch_object()->catid;
   $cat = get_merchant_details($catid);
   display_merchant_form($cat);
+  display_button("upload_image.php?catid=" . $catid, "Edit image");
 } else {
   echo "<p>You are not authorized to enter the administration area.</p>";
 }

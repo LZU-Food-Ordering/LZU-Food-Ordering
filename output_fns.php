@@ -539,7 +539,7 @@ height=\"60px\" style=\"border: 1px solid black\"/>";
         <td><input type="text" name="customerid" value="<?php echo $cust_details['customerid']; ?>" maxlength="40" size="40" /></td>
       </tr>
       <tr>
-        <td align=center>dormitory</td>
+        <td align=center>Delivery Address</td>
         <td><input type="text" name="dormitory" value="<?php echo $cust_details['dormitory']; ?>" maxlength="20" size="40" /></td>
       </tr>
 
@@ -651,8 +651,7 @@ height=\"60px\" style=\"border: 1px solid black\"/>";
           </tr></table>
           <div align=\"right\">
           <input type=\"hidden\" name=\"save\" value=\"true\"/>
-          <input type=\"image\" src=\"images/save-changes.gif\"
-          border=\"0\" alt=\"Save Changes\"/>
+          <input type=\"submit\" value=\"Save Changes\"/>
           </div>";
     }
     echo "</form>";
@@ -761,10 +760,8 @@ height=\"60px\" style=\"border: 1px solid black\"/>";
 
   function display_form_button($image, $alt)
   {
-    echo "<div align=\"right\"><input type=\"image\"
-           src=\"images/" . htmlspecialchars($image) . ".gif\"
-           alt=\"" . htmlspecialchars($alt) . "\" border=\"0\" height=\"50\"
-           width=\"135\"/></div>";
+    echo "<div align=\"right\"><input type=\"submit\"
+           value=\"" . htmlspecialchars($alt) . "\"/></div>";
   }
 
 ?>
