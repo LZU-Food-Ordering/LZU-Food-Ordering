@@ -564,7 +564,7 @@ function display_each_orders_cust($food)
 
         echo "<td align=\"left\">
         <a href=\"show_food.php?foodid=" . urlencode($item['foodid']) . "\">" . htmlspecialchars($food['title']) . "</a></td>";
-        if ($item['item_status'] != 'CANCEL' && $item['item_status'] != 'DONE') {
+        if ($item['item_status'] != 'CANCEL' && $item['item_status'] != 'DONE' && isset($_GET['orderid'])) {
         ?> <td align="center">
             <form method="post" action="cust_show_order_items.php?orderid=<?php echo $_GET['orderid']; ?>">
               <input type="hidden" name="foodid" value="<?php echo $item['foodid']; ?>">

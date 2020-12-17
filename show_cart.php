@@ -58,8 +58,7 @@ display_button($target, "Continue Shopping");
 // $path = $_SERVER['PHP_SELF'];
 // $server = $_SERVER['SERVER_NAME'];
 // $path = str_replace('show_cart.php', '', $path);
-// display_button("https://".$server.$path."checkout.php",
-//                 "go-to-checkout", "Go To Checkout");
+// display_button("https://".$server.$path."checkout.php", "Go To Checkout");
 
 // if no SSL use below code
 display_button("checkout.php", "Go To Checkout");
