@@ -16,14 +16,18 @@ display_foods($food_array);
 
 // if logged in as admin, show add, delete food links
 if (isset($_SESSION['admin_user'])) {
-  display_button("index.php", "Continue Shopping");
-  display_button("admin.php", "Admin Menu");
+  // display_button("index.php", "Continue Shopping");
+  display_button("admin.php", "Back to administration menu");
   display_button(
     "edit_merchant_form.php?catid=" . urlencode($catid),
     "edit-merchant",
     "Edit merchant"
   );
-} else {
+}
+else if(isset($_SESSION['rest_user'])){
+  display_button("admin.php", "Back to administration menu");
+}
+else {
   display_button("index.php", "Continue Shopping");
 }
 

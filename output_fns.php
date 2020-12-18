@@ -180,6 +180,157 @@ function do_html_header($title = '')
     }
   }
 
+
+  function do_html_header_admin($title = '')
+{
+  // print an HTML header
+
+  // declare the session variables we want access to inside the function
+  if (empty($_SESSION['items'])) {
+    $_SESSION['items'] = '0';
+  }
+  if (empty($_SESSION['total_price'])) {
+    $_SESSION['total_price'] = '0.00';
+  }
+?>
+  <html>
+
+  <head>
+    <title><?php echo htmlspecialchars($title); ?></title>
+    <style>
+      h2 {
+        text-align: center;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 22px;
+        color: orange;
+        margin: 6px
+      }
+
+      table {
+        margin: auto;
+      }
+
+      input,
+      select,
+      textarea {
+        padding: 3px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        resize: vertical;
+      }
+
+      input[type=submit] {
+        background-color: #4CAF50;
+        color: white;
+        padding: 3px 10px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      input[type=submit]:hover {
+        background-color: #45a049;
+      }
+
+      button {
+        background-color: #f44336;
+        /* Green */
+        border: none;
+        color: white;
+        border-radius: 10px;
+        padding: 10px 16px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 13px;
+        margin: 4px 2px;
+        cursor: pointer;
+        -webkit-transition-duration: 0.4s;
+        /* Safari */
+        transition-duration: 0.4s;
+      }
+
+      button:hover {
+        box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
+      }
+
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 13px
+      }
+
+      li,
+      td {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 13px
+      }
+
+      hr {
+        color: #BE4D30;
+        width: 70%;
+        text-align: center
+      }
+
+      a {
+        font-family: 'Helvetica Neue', 'Helvetica', Arial, 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+        text-decoration: none;
+        -webkit-transition: color 1s, text-decoration 1s;
+        transition: color 1s, text-decoration 1s;
+      }
+
+      a,
+      a:visited {
+        color: #009bdf;
+      }
+
+      a:hover,
+      a:focus,
+      a:active {
+        color: rgb(147, 195, 199);
+      }
+
+      img {
+        transition: opacity 1s, filter 1s, transform 1s, box-shadow 1s;
+      }
+
+      img:hover {
+        transform: scale(1.1);
+        box-shadow: 0px 0px 2px 2px #C0C1C0;
+      }
+
+      #title-head {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 60px;
+        color: red;
+        text-decoration: none;
+      }
+
+      #user_logo {
+        width: 100px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <table width="100%" border="0" cellspacing="0" bgcolor="#E7AEA0">
+      <tr>
+        <td rowspan="2">
+          <a id="title-head" href="index.php">兰大点餐平台</a>
+        </td>
+        <td align="right" rowspan="2" width="135">
+          <?php
+            display_button('login.php', 'Log In');
+          ?>
+      </tr>
+    </table>
+    <?php
+    if ($title) {
+      do_html_heading($title);
+    }
+  }
+
+
+
   function do_html_footer()
   {
     // print an HTML footer
