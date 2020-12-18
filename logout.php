@@ -5,15 +5,15 @@ require_once('food_sc_fns.php');
 session_start();
 $userkind = "admin_user";
 if (isset($_SESSION['rest_user']))
-{
-  $userkind = "rest_user";
-  $old_user = $_SESSION[$userkind];  // store  to test if they *were* logged in
-  unset($_SESSION[$userkind]);
-  session_destroy();
-}
+$userkind = "rest_user";
+if (isset($_SESSION[$userkind]))
+$old_user = $_SESSION[$userkind];  // store  to test if they *were* logged in
+unset($_SESSION[$userkind]);
+session_destroy();
+
 
 // start output html
-do_html_header_admin("Logging Out");
+do_html_header("Logging Out",'admin');
 
 if (!empty($old_user)) {
   echo "<p>Logged out.</p>";
