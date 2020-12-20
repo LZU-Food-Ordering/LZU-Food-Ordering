@@ -24,6 +24,8 @@
 
 [用户手册](docs/User_Manual.pdf)
 
+[开发文档](docs/Develop_Doc.pdf)
+
 版权所有 &copy; [@hollowman6](https://github.com/HollowMan6) & [@somnuschaplet](https://github.com/somnuschaplet)
 
 # LZU Food Ordering
@@ -38,5 +40,7 @@ Due to limited time, the platform may be vulnerable and not suitable for commerc
 [Install Manual(In Chinese)](docs/Install_Manual.pdf)
 
 [User Manual(In Chinese)](docs/User_Manual.pdf)
+
+[Developping Document(In Chinese)](docs/Develop_Doc.pdf)
 
 Copyright &copy; [@hollowman6](https://github.com/HollowMan6) & [@somnuschaplet](https://github.com/somnuschaplet)
