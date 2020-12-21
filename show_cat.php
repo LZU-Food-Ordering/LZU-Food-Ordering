@@ -23,11 +23,9 @@ if (isset($_SESSION['admin_user'])) {
     "edit-merchant",
     "Edit merchant"
   );
-}
-else if(isset($_SESSION['rest_user'])){
+} else if (isset($_SESSION['rest_user'])) {
   display_button("admin.php", "Back to administration menu");
-}
-else {
+} else {
   display_button("index.php", "Continue Shopping");
 }
 

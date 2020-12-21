@@ -388,20 +388,20 @@ function cust_signup($detail_array)
 
   $conn = db_connect();
 
-  if(empty($detail_array['sex'])){
-    $detail_array['sex']= 0;
+  if (empty($detail_array['sex'])) {
+    $detail_array['sex'] = 0;
   }
 
-  if(empty($detail_array['age'])){
-    $detail_array['age']= 0;
+  if (empty($detail_array['age'])) {
+    $detail_array['age'] = 0;
   }
 
-  if(empty($detail_array['qq'])){
-    $detail_array['qq']= "";
+  if (empty($detail_array['qq'])) {
+    $detail_array['qq'] = "";
   }
 
-  if(empty($detail_array['email'])){
-    $detail_array['email']= "";
+  if (empty($detail_array['email'])) {
+    $detail_array['email'] = "";
   }
 
   $query = "INSERT INTO `customers`(`customerid`, `name`, `dormitory`, `password`, 

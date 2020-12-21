@@ -254,7 +254,7 @@ function display_each_orders($food)
   </form>
   </td>
   </table>
-  <hr/>
+  <hr />
   <?php
 }
 
@@ -354,7 +354,7 @@ function display_each_orders_cust($food)
     ?>
     </td>
     </table>
-    <hr/>
+    <hr />
     <?php
   }
 

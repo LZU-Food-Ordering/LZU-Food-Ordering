@@ -1,6 +1,6 @@
 <?php
 
-function do_html_header($title = '',$extra='')
+function do_html_header($title = '', $extra = '')
 {
   // print an HTML header
 
@@ -151,7 +151,7 @@ function do_html_header($title = '',$extra='')
         </td>
         <td align="right" rowspan="2" width="135">
           <?php
-          if($extra=='admin'){
+          if ($extra == 'admin') {
             if (isset($_SESSION['admin_user']) || isset($_SESSION['rest_user'])) {
               display_button('logout.php', 'Log Out');
             } else if (isset($_SESSION['cust_user'])) {
@@ -160,8 +160,7 @@ function do_html_header($title = '',$extra='')
             } else {
               display_button('login.php', 'Log In');
             }
-          }
-          else{
+          } else {
             if (isset($_SESSION['admin_user']) || isset($_SESSION['rest_user'])) {
               display_button('logout.php', 'Log Out');
             } else if (isset($_SESSION['cust_user'])) {
@@ -177,11 +176,11 @@ function do_html_header($title = '',$extra='')
       <tr>
         <td align="right" valign="top">
           <?php
-            if (isset($_SESSION['admin_user'])) {
-              echo "&nbsp;";
-            } else if (isset($_SESSION['cust_user'])) {
-              echo "Total Price = ￥" . number_format($_SESSION['total_price'], 2);
-            }
+          if (isset($_SESSION['admin_user'])) {
+            echo "&nbsp;";
+          } else if (isset($_SESSION['cust_user'])) {
+            echo "Total Price = ￥" . number_format($_SESSION['total_price'], 2);
+          }
           ?>
         </td>
       </tr>
@@ -560,7 +559,7 @@ height=\"60px\" style=\"border: 1px solid black\"/>";
       <td colspan="2" align="center">
         <p><strong>Please press Purchase to confirm
             your purchase, or Continue Shopping to add or remove items.</strong></p>
-        <?php display_form_button("purchase", "Purchase These Items"); ?>
+        <?php display_form_button("Purchase These Items"); ?>
       </td>
       </tr>
     </form>
@@ -590,7 +589,7 @@ height=\"60px\" style=\"border: 1px solid black\"/>";
         <td colspan="2" align="center">
           <input type="hidden" name="orderid" value="<?php echo $orderid; ?>">
           <p><strong>Please press Purchase to confirm your purchase.</strong></p>
-          <?php display_form_button('purchase', 'Purchase These Items'); ?>
+          <?php display_form_button('Purchase These Items'); ?>
         </td>
       </tr>
   </table>
@@ -772,7 +771,7 @@ height=\"60px\" style=\"border: 1px solid black\"/>";
           <button type=\"button\">" . htmlspecialchars($alt) . "</button></a></div>";
   }
 
-  function display_form_button($image, $alt)
+  function display_form_button($alt)
   {
     echo "<div align=\"right\"><input type=\"submit\"
            value=\"" . htmlspecialchars($alt) . "\"/></div>";

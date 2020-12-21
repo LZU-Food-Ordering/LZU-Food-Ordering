@@ -3,7 +3,7 @@
 // include function files for this application
 require_once('food_sc_fns.php');
 session_start();
-if(isset($_SESSION['cust_user'])){
+if (isset($_SESSION['cust_user'])) {
   $old_user = $_SESSION['cust_user'];  // store  to test if they *were* logged in
   unset($_SESSION['cust_user']);
   session_destroy();
